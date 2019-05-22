@@ -1,0 +1,45 @@
+{
+  "name": "dev",
+  "version": "1.0.0",
+  "description": "task",
+  "author": "Tsumuraya",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "build": "nuxt build",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.4.2",
+    "@nuxtjs/pwa": "^3.0.0-beta.16",
+    "cross-env": "^5.2.0",
+    "express": "^4.17.0",
+    "node-sass": "^4.12.0",
+    "nuxt": "^2.7.1",
+    "sass-loader": "^7.1.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^0.0.1",
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": ">=12.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": ">=2.17.2",
+    "eslint-plugin-jest": ">=22.5.1",
+    "eslint-plugin-node": ">=9.0.1",
+    "eslint-plugin-nuxt": ">=0.4.3",
+    "eslint-plugin-promise": ">=4.1.1",
+    "eslint-plugin-standard": ">=4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0",
+    "vue-jest": "^3.0.4"
+  }
+}

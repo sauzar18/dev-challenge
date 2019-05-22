@@ -16,6 +16,7 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
   color: #0a0a0a;
+  background-color: #F9F9FA;
 }
 
 *,
@@ -32,6 +33,15 @@ a {
 button {
   border: none;
   cursor: pointer;
+}
+main {
+  display: block;
+}
+.st-main {
+  padding-top: 44px;
+}
+li {
+  list-style: none;
 }
 .beige {
   background-color: #fdf9f3;

@@ -2,7 +2,7 @@
   <header class="beige">
     <div class="inner">
       <logo class="st-space__right" />
-      <search />
+      <search class="st-search" />
       <div class="st-button__group">
         <button-post
           text="WRITE A POST"
@@ -52,6 +52,11 @@ header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0,0,0,0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
 }
 .inner {
   width: 1250px;
@@ -65,9 +70,13 @@ header {
   align-items: center;
 }
 .st-space__left {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 .st-space__right {
-  margin-left: 15px;
+  margin-left: 2%;
+}
+.st-search {
+  margin-left: auto;
+  margin-right: 100px;
 }
 </style>

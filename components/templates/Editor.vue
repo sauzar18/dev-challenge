@@ -1,6 +1,7 @@
 <template>
   <div class="st-editor">
     <input
+      v-model="article_title"
       type="text"
       name="article_title"
       placeholder="Title"
@@ -8,6 +9,7 @@
     >
     <div class="st-category">
       <input
+        v-model="tags"
         type="text"
         name="tags"
         placeholder="tags"
@@ -16,7 +18,7 @@
       <button
         type="button"
         class="st-detail"
-        @click="isActive"
+        @click="isActive = true"
       >
         <i>
           <img
@@ -28,7 +30,7 @@
       <button
         type="button"
         class="st-detail"
-        @click="isActive2"
+        @click="isActive2 = true"
       >
         <i>
           <img
@@ -39,25 +41,87 @@
       </button>
     </div>
     <textarea
+      v-model="content"
       class="st-content"
       name="article"
       cols="30"
       rows="10"
       placeholder="Body Markdown"
     />
+    <upload-box
+      :class="{ active: isActive }"
+      class="st-modal"
+      @done-button="isDone"
+    />
+    <canonical-box
+      :class="{ active: isActive2 }"
+      class="st-modal"
+      @done-button="isDone2"
+    />
+    <editor-footer
+      :title="article_title"
+      :tags="tags"
+      :content="content"
+    />
   </div>
 </template>
 <script>
+import UploadBox from '~/components/templates/UploadBox.vue'
+import CanonicalBox from '~/components/templates/CanonicalBox.vue'
+import EditorFooter from '~/components/templates/EditorFooter.vue'
 export default {
+  components: {
+    UploadBox,
+    EditorFooter,
+    CanonicalBox
+  },
   data() {
     return {
       isActive: false,
-      isActive2: false
+      isActive2: false,
+      article_title: '',
+      tags: [],
+      content: ''
+    }
+  },
+  watch: {
+    article_title(newValue) {
+      localStorage.article_title = newValue
+    },
+    tags(newValue) {
+      localStorage.tags = newValue
+    },
+    content(newValue) {
+      localStorage.content = newValue
+    }
+  },
+  mounted() {
+    if (localStorage.article_title) {
+      this.article_title = localStorage.article_title
+    }
+    if (localStorage.tags) {
+      this.tags = localStorage.tags
+    }
+    if (localStorage.content) {
+      this.content = localStorage.content
+    }
+  },
+  methods: {
+    isDone(e) {
+      this.isActive = e
+    },
+    isDone2(e) {
+      this.isActive2 = e
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+button {
+  &:focus {
+    outline: none;
+  }
+}
 .st-editor {
   width: 860px;
   background-color: #fff;
@@ -66,6 +130,7 @@ export default {
   border-radius: 3px;
   padding: 0 20px;
   box-shadow: 1px 1px 0px #c2c2c2;
+  position: relative;
 }
 input {
   border: none;
@@ -111,12 +176,18 @@ input {
 .st-content {
   font-size: 18px;
   padding: 20px 6px;
-  height: 280px;
+  height: calc(90vh - 280px);
   width: 100%;
   border: none;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   &:focus {
     outline: none;
+  }
+}
+.st-modal {
+  display: none;
+  &.active {
+    display: block;
   }
 }
 </style>

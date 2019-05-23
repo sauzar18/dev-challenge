@@ -19,9 +19,12 @@
       SAVE DRAFT
     </button>
     <div>
-      <p>
+      <p v-if="title || tags.toString() || content">
         New Changes(
-        <button type="button">
+        <button
+          type="button"
+          @click="isClear"
+        >
           Clear
         </button>
         )
@@ -35,6 +38,34 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    tags: {
+      type: Array,
+      required: true
+    },
+    content: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    isClear() {
+      const clear = confirm('Are you sure you want to revert to the previous save?')
+      if (clear) {
+        localStorage.clear()
+        this.$router.go()
+      }
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .st-flex {
   display: flex;
@@ -46,6 +77,7 @@
   width: 100%;
   height: 83px;
   border-top: 1px solid #dbdbdb;
+  background-color: #fff;
 }
 .st-button {
   padding: 6px 13px;

@@ -49,7 +49,7 @@ export default {
       required: true
     },
     tags: {
-      type: Array,
+      type: String,
       required: true
     },
     content: {
@@ -91,6 +91,7 @@ export default {
     async isPost(e) {
       try {
         await this.$store.dispatch('post', {
+          id: this.$auth.$state.user.id,
           title: this.title,
           tags: this.tags,
           content: this.content,

@@ -5,9 +5,9 @@
   >
     <i>
       <img
-        v-if="$store.state.authUser"
+        v-if="$auth.$state.user"
         class="st-icon"
-        src="#"
+        :src="$auth.$state.user.avatar_url"
         alt="お名前"
       >
       <img

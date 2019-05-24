@@ -5,7 +5,6 @@ import bodyParser from 'body-parser'
 import session from 'express-session'
 // import xss from 'xss'
 import cookieParser from 'cookie-parser'
-import csrf from 'csurf'
 // import connection from './mysqlConnect'
 import api from './api'
 const app = express()
@@ -22,7 +21,6 @@ app.use(session({
     maxage: 1000 * 60 * 30
   }
 }))
-app.use(csrf({ cookie: true }))
 app.use('/api', api)
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')

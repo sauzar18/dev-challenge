@@ -10,7 +10,9 @@
       <default-button
         link="#"
         text="Sign In With GitHub"
+        :anker="false"
         class="st-button"
+        @login="LoginGitHub"
       />
     </div>
   </section>
@@ -20,6 +22,20 @@ import DefaultButton from '~/components/parts/DefaultButton.vue'
 export default {
   components: {
     DefaultButton
+  },
+  data() {
+    return {
+      error: null
+    }
+  },
+  methods: {
+    async LoginGitHub() {
+      try {
+        await this.$auth.loginWith('github')
+      } catch (e) {
+        this.error = true
+      }
+    }
   }
 }
 </script>
@@ -43,6 +59,7 @@ h1 {
   height: 57px;
   color: #000;
   background-color: #dee4ff;
+  font-size: 16px;
   &:first-child {
     margin-bottom: 20px;
   }

@@ -11,7 +11,7 @@
         </div>
       </main>
       <div class="st-right">
-        <sign-bar />
+        <sign-bar v-if="!$auth.$state.user" />
       </div>
     </div>
   </div>

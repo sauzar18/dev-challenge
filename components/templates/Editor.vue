@@ -86,7 +86,7 @@ export default {
       isActive: false,
       isActive2: false,
       article_title: '',
-      tags: [],
+      tags: '',
       content: '',
       cover_image: '',
       canonical: '',

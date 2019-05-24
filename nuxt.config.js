@@ -41,7 +41,8 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
@@ -60,7 +61,20 @@ module.exports = {
       return config
     }
   },
-
+  auth: {
+    strategies: {
+      github: {
+        client_id: '337df7b568e8f74bedf8',
+        client_secret: '345e18c6f8372e91241036dcf01ee01525da7109'
+      },
+    },
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/',
+      home: '/',
+    }
+  },
   /*
   ** Build configuration
   */

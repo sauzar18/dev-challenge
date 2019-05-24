@@ -3,15 +3,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export const state = () => ({
-  csrfToken: null,
   authUser: null,
   post: null
 })
 
 export const mutations = {
-  SET_CSRF_TOKEN(state, csrfToken) {
-    state.csrfToken = csrfToken
-  },
   SET_USER(state, user) {
     state.authUser = user
   },
@@ -24,12 +20,9 @@ export const actions = {
     if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
     }
-    if (req.cookies) {
-      commit('SET_CSRF_TOKEN', req.csrfToken())
-    }
   },
-  post({ commit }, { title, tags, content, cover, canonical, series, type, _csrf }) {
-    return fetch('/api/post', {
+  post({ commit }, { id, title, tags, content, cover, canonical, series, type, _csrf }) {
+    return fetch('/api/posts', {
       credentials: 'same-origin',
       method: 'POST',
       headers: {
@@ -37,7 +30,7 @@ export const actions = {
         'Authorization': 'Bearer ' + _csrf,
         'X-CSRF-TOKEN': _csrf
       },
-      body: JSON.stringify({ title, tags, content, cover, canonical, series, type, _csrf })
+      body: JSON.stringify({ id, title, tags, content, cover, canonical, series, type, _csrf })
     })
       .then((res) => {
         if (res.status === 401) {

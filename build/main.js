@@ -178,7 +178,7 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [// Doc: https://axios.nuxtjs.org/usage
-  '@nuxtjs/axios', '@nuxtjs/pwa'],
+  '@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth'],
 
   /*
   ** Axios module configuration
@@ -196,6 +196,20 @@ module.exports = {
       }
 
       return config;
+    }
+  },
+  auth: {
+    strategies: {
+      github: {
+        client_id: '337df7b568e8f74bedf8',
+        client_secret: '345e18c6f8372e91241036dcf01ee01525da7109'
+      }
+    },
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/',
+      home: '/'
     }
   },
 
@@ -230,7 +244,7 @@ module.exports = {
 /*! exports provided: name, version, description, author, private, scripts, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
+module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
 
 /***/ }),
 
@@ -245,8 +259,54 @@ module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _posts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./posts */ "./server/api/posts.js");
+
 
 const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.use(_posts__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./server/api/posts.js":
+/*!*****************************!*\
+  !*** ./server/api/posts.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
+
+
+
+
+
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.post('/posts', (req, res, next) => {
+  const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.id);
+  const title = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.title);
+  const tags = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.tags);
+  const content = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.content);
+  const cover = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.cover);
+  const canonical = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.canonical);
+  const series = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.series);
+  const postType = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.type);
+  const createdAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const postQuery = `INSERT INTO dev_posts (user_id, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
+  });
+});
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
@@ -272,15 +332,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express_session__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(express_session__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! cookie-parser */ "cookie-parser");
 /* harmony import */ var cookie_parser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(cookie_parser__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var csurf__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! csurf */ "csurf");
-/* harmony import */ var csurf__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(csurf__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./api */ "./server/api/index.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./api */ "./server/api/index.js");
 
 
 
 
  // import xss from 'xss'
-
 
  // import connection from './mysqlConnect'
 
@@ -299,10 +356,7 @@ app.use(express_session__WEBPACK_IMPORTED_MODULE_4___default()({
     maxage: 1000 * 60 * 30
   }
 }));
-app.use(csurf__WEBPACK_IMPORTED_MODULE_6___default()({
-  cookie: true
-}));
-app.use('/api', _api__WEBPACK_IMPORTED_MODULE_7__["default"]); // Import and Set Nuxt.js options
+app.use('/api', _api__WEBPACK_IMPORTED_MODULE_6__["default"]); // Import and Set Nuxt.js options
 
 const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
 
@@ -337,6 +391,30 @@ start();
 
 /***/ }),
 
+/***/ "./server/mysqlConnect.js":
+/*!********************************!*\
+  !*** ./server/mysqlConnect.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
+/* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
+
+const dbConfig = {
+  host: 'localhost',
+  user: 'root',
+  database: 'dev_db',
+  password: '',
+  multipleStatements: true
+};
+const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default.a.createConnection(dbConfig);
+/* harmony default export */ __webpack_exports__["default"] = (connection);
+
+/***/ }),
+
 /***/ "body-parser":
 /*!******************************!*\
   !*** external "body-parser" ***!
@@ -356,17 +434,6 @@ module.exports = require("body-parser");
 /***/ (function(module, exports) {
 
 module.exports = require("cookie-parser");
-
-/***/ }),
-
-/***/ "csurf":
-/*!************************!*\
-  !*** external "csurf" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("csurf");
 
 /***/ }),
 
@@ -400,6 +467,28 @@ module.exports = require("express-session");
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("moment");
+
+/***/ }),
+
+/***/ "mysql":
+/*!************************!*\
+  !*** external "mysql" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("mysql");
 
 /***/ }),
 
@@ -444,6 +533,17 @@ module.exports = require("path");
 /***/ (function(module, exports) {
 
 module.exports = require("util");
+
+/***/ }),
+
+/***/ "xss":
+/*!**********************!*\
+  !*** external "xss" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("xss");
 
 /***/ })
 

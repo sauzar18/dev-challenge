@@ -7,8 +7,10 @@
           <label for="canonical">Canonical URL</label>
           <input
             id="canonical"
+            v-model="canonical"
             name="canonical_url"
             type="text"
+            @change="isCanonical"
           >
         </div>
         <p>Change meta tagcanonical_url if this post was first published elsewhere (like your own blog)</p>
@@ -16,8 +18,10 @@
           <label for="series">Series Name</label>
           <input
             id="series"
+            v-model="series"
             name="series"
             type="text"
+            @change="isSeries"
           >
         </div>
         <p>Will this post be part of a series? Give the series a unique name. (Series visible once it has multiple posts)</p>
@@ -41,9 +45,21 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      canonical: '',
+      series: ''
+    }
+  },
   methods: {
     isDone() {
       this.$emit('done-button', false)
+    },
+    isCanonical() {
+      this.$emit('change-canonical', this.canonical)
+    },
+    isSeries() {
+      this.$emit('change-series', this.series)
     }
   }
 }

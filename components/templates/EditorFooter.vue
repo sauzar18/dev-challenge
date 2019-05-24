@@ -9,12 +9,14 @@
     <button
       type="button"
       class="st-button"
+      @click="isPreview"
     >
       PREVIEW
     </button>
     <button
       type="button"
       class="st-button"
+      @click="isPost('draft')"
     >
       SAVE DRAFT
     </button>
@@ -32,6 +34,7 @@
       <button
         type="button"
         class="st-button st-publish"
+        @click="isPost('publish')"
       >
         PUBLISH
       </button>
@@ -52,6 +55,26 @@ export default {
     content: {
       type: String,
       required: true
+    },
+    image: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    canonical: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    series: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      formError: ''
     }
   },
   methods: {
@@ -60,6 +83,32 @@ export default {
       if (clear) {
         localStorage.clear()
         this.$router.go()
+      }
+    },
+    isPreview() {
+      this.$emit('active-preview', true)
+    },
+    async isPost(e) {
+      try {
+        await this.$store.dispatch('post', {
+          title: this.title,
+          tags: this.tags,
+          content: this.content,
+          cover: this.image,
+          canonical: this.canonical,
+          series: this.series,
+          type: e,
+          _csrf: this.$store.state.csrfToken
+        }).then(() => this.$router.go('/'))
+        this.title = ''
+        this.tags = ''
+        this.content = ''
+        this.image = ''
+        this.canonical = ''
+        this.series = ''
+        this.formError = null
+      } catch (e) {
+        this.formError = e.message
       }
     }
   }

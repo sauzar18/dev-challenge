@@ -51,17 +51,23 @@
     <upload-box
       :class="{ active: isActive }"
       class="st-modal"
+      @change-cover="isCover"
       @done-button="isDone"
     />
     <canonical-box
       :class="{ active: isActive2 }"
       class="st-modal"
+      @change-canonical="isCanonical"
+      @change-series="isSeries"
       @done-button="isDone2"
     />
     <editor-footer
       :title="article_title"
       :tags="tags"
       :content="content"
+      :image="cover_image"
+      :canonical="canonical"
+      :series="series"
     />
   </div>
 </template>
@@ -81,7 +87,10 @@ export default {
       isActive2: false,
       article_title: '',
       tags: [],
-      content: ''
+      content: '',
+      cover_image: '',
+      canonical: '',
+      series: ''
     }
   },
   watch: {
@@ -112,6 +121,15 @@ export default {
     },
     isDone2(e) {
       this.isActive2 = e
+    },
+    isCover(e) {
+      this.cover_image = e
+    },
+    isCanonical(e) {
+      this.canonical = e
+    },
+    isSeries(e) {
+      this.series = e
     }
   }
 }
@@ -188,6 +206,7 @@ input {
   display: none;
   &.active {
     display: block;
+    overflow: auto;
   }
 }
 </style>

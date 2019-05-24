@@ -10,6 +10,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'robots', content: 'noindex, nofollow' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
@@ -46,7 +47,18 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    // baseURL: 'https://dev-problem.herokuapp.com/',
+    credentials: false,
+    browserBaseURL: process.env.BASE_APP_URL || '/',
+    requestInterceptor: (config, {
+      store
+    }) => {
+      if (store.state.csrfToken) {
+        config.headers.common.Authorization = 'Bearer ' + store.state.csrfToken
+        config.headers.common['x-csrf-token'] = store.state.csrfToken
+      }
+      return config
+    }
   },
 
   /*

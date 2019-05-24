@@ -59,6 +59,7 @@ h1 {
   position: sticky;
   top: 0;
   background-color: #fff;
+  z-index: 2;
 }
 a {
   display: flex;

@@ -1,10 +1,31 @@
-const express = require('express')
-const consola = require('consola')
-const { Nuxt, Builder } = require('nuxt')
+import express from 'express'
+import consola from 'consola'
+import { Nuxt, Builder } from 'nuxt'
+import bodyParser from 'body-parser'
+import session from 'express-session'
+// import xss from 'xss'
+import cookieParser from 'cookie-parser'
+import csrf from 'csurf'
+// import connection from './mysqlConnect'
+import api from './api'
 const app = express()
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+app.use(cookieParser())
+app.use(session({
+  secret: 'example',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxage: 1000 * 60 * 30
+  }
+}))
+app.use(csrf({ cookie: true }))
+app.use('/api', api)
 // Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
+const config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
 
 async function start() {

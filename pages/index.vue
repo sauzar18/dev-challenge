@@ -9,6 +9,7 @@
         <div>
           <period-menu :menus="periods" />
         </div>
+        <list :posts="posts" />
       </main>
       <div class="st-right">
         <sign-bar v-if="!$auth.$state.user" />
@@ -21,12 +22,14 @@ import AppHeader from '~/components/roofs/Header.vue'
 import CategoryNav from '~/components/templates/CategoryNav.vue'
 import PeriodMenu from '~/components/templates/PeriodMenu.vue'
 import SignBar from '~/components/templates/SignBar.vue'
+import List from '~/components/templates/List.vue'
 export default {
   components: {
     AppHeader,
     CategoryNav,
     PeriodMenu,
-    SignBar
+    SignBar,
+    List
   },
   data() {
     return {
@@ -71,6 +74,10 @@ export default {
         { id: 5, name: 'LATEST', link: '/top/latest' }
       ]
     }
+  },
+  async asyncData({ app, store, params, redirect }) {
+    const data = await app.$axios.$get('/api/get_post')
+    return { posts: data }
   }
 }
 </script>
@@ -79,6 +86,7 @@ export default {
   width: 1250px;
   margin: 26px auto;
   display: flex;
+  justify-content: space-between;
 }
 .st-center {
   width: 660px;

@@ -337,11 +337,35 @@ router.post('/fileupload', upload.single('thumbnail'), function (req, res) {
     });
   });
 });
+router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) {
+  const filepath = './static' + req.body.fileupload;
+  sharp__WEBPACK_IMPORTED_MODULE_5___default()(filepath).resize(680).toBuffer(function (err, info) {
+    fs__WEBPACK_IMPORTED_MODULE_6___default.a.writeFile(filepath, info, function (e) {
+      if (err) return consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);
+      res.redirect(req.get('referer'));
+    });
+  });
+});
 router.post('/remove_file', function (req, res) {
   const file = './static' + req.body.filepath;
   fs__WEBPACK_IMPORTED_MODULE_6___default.a.unlink(file, err => {
     if (err) throw err;
     res.redirect(req.get('referer'));
+  });
+});
+router.get('/get_post', (req, res, next) => {
+  let clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
   });
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);

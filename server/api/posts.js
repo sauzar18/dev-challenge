@@ -45,11 +45,34 @@ router.post('/fileupload', upload.single('thumbnail'), function (req, res) {
     })
   })
 })
+router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) {
+  const filepath = './static' + req.body.fileupload
+  sharp(filepath).resize(680).toBuffer(function (err, info) {
+    fs.writeFile(filepath, info, function (e) {
+      if (err) return consola.error(err)
+      res.redirect(req.get('referer'))
+    })
+  })
+})
 router.post('/remove_file', function(req, res) {
   const file = './static' + req.body.filepath
   fs.unlink(file, (err) => {
     if (err) throw err;
     res.redirect(req.get('referer'))
+  })
+})
+router.get('/get_post', (req, res, next) => {
+  let clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC'
+  connection.query(clientQuery, function (err, rows) {
+    const users = rows
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      })
+    } else {
+      res.json(users)
+    }
   })
 })
 export default router

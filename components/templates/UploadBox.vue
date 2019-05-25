@@ -7,7 +7,7 @@
           v-if="remove === false"
           ref="file"
           type="file"
-          @change="onChange"
+          @change="onChange($event, 'cover')"
         >
         <div v-else>
           <figure class="st-remove__figure">
@@ -33,9 +33,34 @@
       <dt>Body Images</dt>
       <dd>
         <input
+          v-if="pathActive === false"
           ref="file2"
           type="file"
+          @change="onChange($event, 'body')"
         >
+        <div
+          v-else
+          class="st-body__upload"
+        >
+          <dl>
+            <dt>Markdown Image:</dt>
+            <dd>
+              <input
+                :value="`![](${filepath})`"
+                type="text"
+              >
+            </dd>
+          </dl>
+          <dl>
+            <dt>Direct URL:</dt>
+            <dd>
+              <input
+                :value="filepath"
+                type="text"
+              >
+            </dd>
+          </dl>
+        </div>
       </dd>
     </dl>
     <button
@@ -67,7 +92,8 @@ export default {
       filepath: '',
       image: '',
       uploadFile: '',
-      upError: ''
+      upError: '',
+      pathActive: false
     }
   },
   watch: {
@@ -90,12 +116,16 @@ export default {
     isDone() {
       this.$emit('done-button', false)
     },
-    onChange(e) {
+    onChange(e, type) {
       const file = e.target.files[0]
       const uploadedFiles = this.$refs.file.files || this.$refs.file.dataTransfer.files
-      this.uploadFile = uploadedFiles[0]
+      const uploadedFiles2 = this.$refs.file2.files || this.$refs.file2.dataTransfer.files
+      if (type === 'cover') {
+        this.uploadFile = uploadedFiles[0]
+      } else {
+        this.uploadFile = uploadedFiles2[0]
+      }
       if (file) {
-        this.image = window.URL.createObjectURL(file)
         this.filepath = `/upload/${this.uploadFile.name}`
       }
       const formData = new FormData()
@@ -108,12 +138,21 @@ export default {
           'X-CSRF-TOKEN': this.$store.state.csrfToken
         }
       }
-      this.$axios.$post('/api/fileupload', formData, config)
-        .then(function () {
-          return 'success'
-        })
-        .then(() => this.$emit('uploaded-button', this.filepath))
-        .catch(error => (this.upError = error.response.data.error))
+      if (type === 'cover') {
+        this.$axios.$post('/api/fileupload', formData, config)
+          .then(function () {
+            return 'success'
+          })
+          .then(() => this.$emit('uploaded-button', this.filepath))
+          .catch(error => (this.upError = error.response.data.error))
+      } else {
+        this.$axios.$post('/api/fileupload_body', formData, config)
+          .then(function () {
+            return 'success'
+          })
+          .then(() => (this.pathActive = true))
+          .catch(error => (this.upError = error.response.data.error))
+      }
     },
     async isRemove() {
       try {
@@ -200,6 +239,21 @@ input[type='file'] {
     height: 100%;
     object-fit: cover;
     object-position: center;
+  }
+}
+.st-body__upload {
+  dt {
+    color: #fff;
+    font-size: 20px;
+  }
+  input {
+    display: block;
+    width: calc(100% - 270px);
+    margin: 20px auto 0px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: none;
+    font-size: 18px;
   }
 }
 </style>

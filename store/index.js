@@ -36,11 +36,30 @@ export const actions = {
         if (res.status === 401) {
           throw new Error('記事の投稿に失敗しました。')
         } else {
-          return res.json()
+          this.$router.go('/')
         }
       })
       .then((post) => {
         commit('SET_POST', post)
+      })
+  },
+  removeFile({ commit }, { filepath, _csrf }) {
+    return fetch('/api/remove_file', {
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + _csrf,
+        'X-CSRF-TOKEN': _csrf
+      },
+      body: JSON.stringify({ filepath })
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error('画像の削除に失敗しました')
+        } else {
+          this.$router.go()
+        }
       })
   }
 }

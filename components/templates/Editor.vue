@@ -1,5 +1,16 @@
 <template>
   <div class="st-editor">
+    <figure v-if="cover_image">
+      <button
+        type="button"
+        @click="isActive = true"
+      >
+        <img
+          :src="cover_image"
+          :alt="article_title"
+        >
+      </button>
+    </figure>
     <input
       v-model="article_title"
       type="text"
@@ -51,8 +62,10 @@
     <upload-box
       :class="{ active: isActive }"
       class="st-modal"
+      :remove="remove"
       @change-cover="isCover"
       @done-button="isDone"
+      @uploaded-button="isUpload"
     />
     <canonical-box
       :class="{ active: isActive2 }"
@@ -69,6 +82,7 @@
       :canonical="canonical"
       :series="series"
     />
+    {{ cover_image }}
   </div>
 </template>
 <script>
@@ -90,7 +104,8 @@ export default {
       content: '',
       cover_image: '',
       canonical: '',
-      series: ''
+      series: '',
+      remove: false
     }
   },
   watch: {
@@ -130,6 +145,11 @@ export default {
     },
     isSeries(e) {
       this.series = e
+    },
+    isUpload(e) {
+      this.isActive = false
+      this.cover_image = e
+      this.remove = true
     }
   }
 }
@@ -207,6 +227,28 @@ input {
   &.active {
     display: block;
     overflow: auto;
+  }
+}
+figure {
+  width: 30%;
+  height: 7.4vw;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #f5f6f7;
+  border: 1px solid #dbdbdb;
+  margin-top: 10px;
+  overflow: hidden;
+  button {
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 }
 </style>

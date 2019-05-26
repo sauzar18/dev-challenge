@@ -304,6 +304,9 @@ __webpack_require__.r(__webpack_exports__);
 const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
 router.post('/posts', (req, res, next) => {
   const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.id);
+  const name = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.name);
+  const avatar = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.avatar);
+  const usertag = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.usertag);
   const title = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.title);
   const tags = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.tags);
   const content = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.content);
@@ -312,7 +315,7 @@ router.post('/posts', (req, res, next) => {
   const series = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.series);
   const postType = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.type);
   const createdAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
-  const postQuery = `INSERT INTO dev_posts (user_id, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`;
+  const postQuery = `INSERT INTO dev_posts (user_id, user_name, user_avatar, user_tag, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${name}', '${avatar}', '${usertag}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`;
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(postQuery, function (err, rows) {
     if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
   });

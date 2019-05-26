@@ -92,6 +92,9 @@ export default {
       try {
         await this.$store.dispatch('post', {
           id: this.$auth.$state.user.id,
+          name: this.$auth.$state.user.name,
+          avatar: this.$auth.$state.user.avatar_url,
+          usertag: this.$auth.$state.user.login,
           title: this.title,
           tags: this.tags,
           content: this.content,

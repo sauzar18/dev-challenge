@@ -3,6 +3,9 @@
     <app-header />
     <div class="st-main">
       <div class="st-left">
+        <keep-alive>
+          <my-link v-if="$auth.$state.user" />
+        </keep-alive>
         <category-nav :categories="categories" />
       </div>
       <main class="st-center">
@@ -23,13 +26,15 @@ import CategoryNav from '~/components/templates/CategoryNav.vue'
 import PeriodMenu from '~/components/templates/PeriodMenu.vue'
 import SignBar from '~/components/templates/SignBar.vue'
 import List from '~/components/templates/List.vue'
+import MyLink from '~/components/roofs/MyLink.vue'
 export default {
   components: {
     AppHeader,
     CategoryNav,
     PeriodMenu,
     SignBar,
-    List
+    List,
+    MyLink
   },
   data() {
     return {

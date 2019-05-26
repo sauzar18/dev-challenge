@@ -21,7 +21,7 @@ export const actions = {
       commit('SET_USER', req.session.authUser)
     }
   },
-  post({ commit }, { id, title, tags, content, cover, canonical, series, type, _csrf }) {
+  post({ commit }, { id, name, avatar, usertag, title, tags, content, cover, canonical, series, type, _csrf }) {
     return fetch('/api/posts', {
       credentials: 'same-origin',
       method: 'POST',
@@ -30,7 +30,7 @@ export const actions = {
         'Authorization': 'Bearer ' + _csrf,
         'X-CSRF-TOKEN': _csrf
       },
-      body: JSON.stringify({ id, title, tags, content, cover, canonical, series, type, _csrf })
+      body: JSON.stringify({ id, name, avatar, usertag, title, tags, content, cover, canonical, series, type, _csrf })
     })
       .then((res) => {
         if (res.status === 401) {

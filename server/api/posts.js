@@ -11,6 +11,9 @@ import connection from '../mysqlConnect'
 const router = Router()
 router.post('/posts', (req, res, next) => {
   const id = xss(req.body.id)
+  const name = xss(req.body.name)
+  const avatar = xss(req.body.avatar)
+  const usertag = xss(req.body.usertag)
   const title = xss(req.body.title)
   const tags = xss(req.body.tags)
   const content = xss(req.body.content)
@@ -19,7 +22,7 @@ router.post('/posts', (req, res, next) => {
   const series = xss(req.body.series)
   const postType = xss(req.body.type)
   const createdAt = moment().format('YYYY-MM-DD HH:mm:ss')
-  const postQuery = `INSERT INTO dev_posts (user_id, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`
+  const postQuery = `INSERT INTO dev_posts (user_id, user_name, user_avatar, user_tag, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${name}', '${avatar}', '${usertag}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`
   connection.query(postQuery, function (err, rows) {
     if (err) consola.error(err)
     else res.redirect(req.get('referer'))

@@ -7,7 +7,7 @@
           v-if="remove === false"
           ref="file"
           type="file"
-          @change="onChange($event, 'cover')"
+          @change="onChange"
         >
         <div v-else>
           <figure class="st-remove__figure">
@@ -36,7 +36,7 @@
           v-if="pathActive === false"
           ref="file2"
           type="file"
-          @change="onChange($event, 'body')"
+          @change="onChange2"
         >
         <div
           v-else
@@ -90,8 +90,10 @@ export default {
   data() {
     return {
       filepath: '',
+      filepath2: '',
       image: '',
       uploadFile: '',
+      uploadFile2: '',
       upError: '',
       pathActive: false
     }
@@ -116,15 +118,10 @@ export default {
     isDone() {
       this.$emit('done-button', false)
     },
-    onChange(e, type) {
+    onChange(e) {
       const file = e.target.files[0]
       const uploadedFiles = this.$refs.file.files || this.$refs.file.dataTransfer.files
-      const uploadedFiles2 = this.$refs.file2.files || this.$refs.file2.dataTransfer.files
-      if (type === 'cover') {
-        this.uploadFile = uploadedFiles[0]
-      } else {
-        this.uploadFile = uploadedFiles2[0]
-      }
+      this.uploadFile = uploadedFiles[0]
       if (file) {
         this.filepath = `/upload/${this.uploadFile.name}`
       }
@@ -138,21 +135,36 @@ export default {
           'X-CSRF-TOKEN': this.$store.state.csrfToken
         }
       }
-      if (type === 'cover') {
-        this.$axios.$post('/api/fileupload', formData, config)
-          .then(function () {
-            return 'success'
-          })
-          .then(() => this.$emit('uploaded-button', this.filepath))
-          .catch(error => (this.upError = error.response.data.error))
-      } else {
-        this.$axios.$post('/api/fileupload_body', formData, config)
-          .then(function () {
-            return 'success'
-          })
-          .then(() => (this.pathActive = true))
-          .catch(error => (this.upError = error.response.data.error))
+      this.$axios.$post('/api/fileupload', formData, config)
+        .then(function () {
+          return 'success'
+        })
+        .then(() => this.$emit('uploaded-button', this.filepath))
+        .catch(error => (this.upError = error.response.data.error))
+    },
+    onChange2(e) {
+      const file = e.target.files[0]
+      const uploadedFiles = this.$refs.file2.files || this.$refs.file2.dataTransfer.files
+      this.uploadFile2 = uploadedFiles[0]
+      if (file) {
+        this.filepath2 = `/upload/${this.uploadFile.name}`
       }
+      const formData = new FormData()
+      formData.set('fileupload', this.filepath2)
+      formData.append('thumbnail', this.uploadFile2)
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          'Authorization': 'Bearer ' + this.$store.state.csrfToken,
+          'X-CSRF-TOKEN': this.$store.state.csrfToken
+        }
+      }
+      this.$axios.$post('/api/fileupload', formData, config)
+        .then(function () {
+          return 'success'
+        })
+        .then(() => (this.pathActive = true))
+        .catch(error => (this.upError = error.response.data.error))
     },
     async isRemove() {
       try {

@@ -2,9 +2,7 @@
   <div>
     <app-header />
     <main class="st-main">
-      <form action="/">
-        <editor />
-      </form>
+      <editor />
     </main>
   </div>
 </template>

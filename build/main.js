@@ -172,10 +172,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [{
-    src: '@/plugins/tag-input',
-    ssr: false
-  }],
+  plugins: [],
 
   /*
   ** Nuxt.js modules
@@ -193,6 +190,15 @@ module.exports = {
   },
   auth: {
     strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/register',
+            method: 'post',
+            propertyName: 'token'
+          }
+        }
+      },
       github: {
         client_id: '337df7b568e8f74bedf8',
         client_secret: '345e18c6f8372e91241036dcf01ee01525da7109'
@@ -237,7 +243,67 @@ module.exports = {
 /*! exports provided: name, version, description, author, private, scripts, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","@voerro/vue-tagsinput":"^1.11.2","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
+module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","marked":"^0.6.2","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
+
+/***/ }),
+
+/***/ "./server/api/cool.js":
+/*!****************************!*\
+  !*** ./server/api/cool.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
+
+
+
+
+
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.post('/cool', (req, res, next) => {
+  const articleId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article);
+  const userId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
+  const sendAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const postQuery = `INSERT INTO dev_cools (article_id, user_id, created_at) VALUES('${articleId}', '${userId}', '${sendAt}')`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
+  });
+});
+router.get('/coolData', (req, res, next) => {
+  const favoriteQuery = 'SELECT * FROM dev_cools';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
+router.post('/coolDelete', (req, res, next) => {
+  const getID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
+  const articleID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article);
+  const deleteQuery = `DELETE FROM dev_cools WHERE user_id = ${getID} AND article_id = ${articleID}`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(deleteQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.ready(err);else res.redirect(req.get('referer'));
+  });
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -253,10 +319,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _posts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./posts */ "./server/api/posts.js");
+/* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./register */ "./server/api/register.js");
+/* harmony import */ var _cool__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cool */ "./server/api/cool.js");
+
+
 
 
 const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
 router.use(_posts__WEBPACK_IMPORTED_MODULE_1__["default"]);
+router.use(_register__WEBPACK_IMPORTED_MODULE_2__["default"]);
+router.use(_cool__WEBPACK_IMPORTED_MODULE_3__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
@@ -377,6 +449,47 @@ router.get('/get_article/:slug', (req, res, next) => {
     } else {
       res.json(users);
     }
+  });
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./server/api/register.js":
+/*!********************************!*\
+  !*** ./server/api/register.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
+
+
+
+
+
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.post('/register', (req, res, next) => {
+  const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.id);
+  const name = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.name);
+  const avatar = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.avatar);
+  const usertag = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.usertag);
+  const github = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.github);
+  const twitter = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.twitter);
+  const createdAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const postQuery = `INSERT INTO dev_users (user_id, user_name, user_avatar, user_tag, twitter, github, created_at) VALUES('${id}', '${name}', '${avatar}', '${usertag}', '${github}', '${twitter}', '${createdAt}')`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect('/');
   });
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);

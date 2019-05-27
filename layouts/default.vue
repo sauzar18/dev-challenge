@@ -78,4 +78,26 @@ button.blue {
     object-position: center;
   }
 }
+.st-article__content {
+  img {
+    width: 100%;
+  }
+  h1,
+  h2,
+  h3 {
+    font-size: 32px;
+    margin: 40px auto 20px;
+    font-weight: normal;
+  }
+  p {
+    margin: 0.95em 0 1.2em;
+  }
+  ul {
+    margin: 0.8em 0.7em 0.8em 1.9em;
+  }
+  li {
+    margin: 0.3em auto;
+    list-style: disc;
+  }
+}
 </style>

@@ -24,6 +24,9 @@ export const actions = {
     if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
     }
+    if (req.cookies) {
+      commit('SET_CSRF_TOKEN', req.cookies['auth._token.github'])
+    }
   },
   post({ commit }, { id, name, avatar, usertag, title, tags, content, cover, canonical, series, type, _csrf }) {
     return fetch('/api/posts', {
@@ -53,8 +56,7 @@ export const actions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + _csrf,
-        'X-CSRF-TOKEN': _csrf
+        'Authorization': _csrf
       },
       body: JSON.stringify({ filepath })
     })
@@ -63,6 +65,22 @@ export const actions = {
           throw new Error('画像の削除に失敗しました')
         } else {
           this.$router.go()
+        }
+      })
+  },
+  cool({ commit }, { article, user, _csrf }) {
+    return fetch('/api/cool', {
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': _csrf,
+      },
+      body: JSON.stringify({ article, user, _csrf })
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          throw new Error('いいね失敗しました')
         }
       })
   }

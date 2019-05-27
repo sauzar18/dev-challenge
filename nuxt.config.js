@@ -33,7 +33,6 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '@/plugins/tag-input', ssr: false }
   ],
 
   /*
@@ -55,6 +54,15 @@ module.exports = {
   },
   auth: {
     strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/api/register',
+            method: 'post',
+            propertyName: 'token'
+          }
+        }
+      },
       github: {
         client_id: '337df7b568e8f74bedf8',
         client_secret: '345e18c6f8372e91241036dcf01ee01525da7109'

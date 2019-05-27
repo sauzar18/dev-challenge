@@ -3,9 +3,7 @@ import consola from 'consola'
 import { Nuxt, Builder } from 'nuxt'
 import bodyParser from 'body-parser'
 import session from 'express-session'
-// import xss from 'xss'
 import cookieParser from 'cookie-parser'
-// import connection from './mysqlConnect'
 import api from './api'
 const app = express()
 app.use(bodyParser.json())

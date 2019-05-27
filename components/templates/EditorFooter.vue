@@ -105,12 +105,13 @@ export default {
           _csrf: this.$store.state.csrfToken
         }).then(() => this.$router.go('/'))
         this.title = ''
-        this.tags = ''
+        this.tags = []
         this.content = ''
         this.image = ''
         this.canonical = ''
         this.series = ''
         this.formError = null
+        localStorage.clear()
       } catch (e) {
         this.formError = e.message
       }

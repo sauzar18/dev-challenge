@@ -172,7 +172,10 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [{
+    src: '@/plugins/tag-input',
+    ssr: false
+  }],
 
   /*
   ** Nuxt.js modules
@@ -186,17 +189,7 @@ module.exports = {
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
-    browserBaseURL: process.env.BASE_APP_URL || '/',
-    requestInterceptor: (config, {
-      store
-    }) => {
-      if (store.state.csrfToken) {
-        config.headers.common.Authorization = 'Bearer ' + store.state.csrfToken;
-        config.headers.common['x-csrf-token'] = store.state.csrfToken;
-      }
-
-      return config;
-    }
+    browserBaseURL: process.env.BASE_APP_URL || '/'
   },
   auth: {
     strategies: {
@@ -208,7 +201,7 @@ module.exports = {
     redirect: {
       login: '/',
       logout: '/',
-      callback: '/',
+      callback: '/callback',
       home: '/'
     }
   },
@@ -244,7 +237,7 @@ module.exports = {
 /*! exports provided: name, version, description, author, private, scripts, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","b64-to-blob":"^1.2.19","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","mkdirp-promise":"^5.0.1","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
+module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.1","@nuxtjs/pwa":"^3.0.0-beta.16","@voerro/vue-tagsinput":"^1.11.2","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.0","express-session":"^1.16.1","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.2","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.0","vue-jest":"^3.0.4"}};
 
 /***/ }),
 
@@ -277,20 +270,20 @@ router.use(_posts__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
-/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
-/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
-/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var multer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! multer */ "multer");
-/* harmony import */ var multer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(multer__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sharp */ "sharp");
-/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sharp__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! fs */ "fs");
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ "fs");
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var multer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! multer */ "multer");
+/* harmony import */ var multer__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(multer__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sharp */ "sharp");
+/* harmony import */ var sharp__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sharp__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
 
 
@@ -298,29 +291,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import mkdirp from 'mkdirp-promise'
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_1__["Router"])();
 router.post('/posts', (req, res, next) => {
-  const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.id);
-  const name = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.name);
-  const avatar = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.avatar);
-  const usertag = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.usertag);
-  const title = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.title);
-  const tags = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.tags);
-  const content = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.content);
-  const cover = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.cover);
-  const canonical = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.canonical);
-  const series = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.series);
-  const postType = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.type);
-  const createdAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const id = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.id);
+  const name = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.name);
+  const avatar = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.avatar);
+  const usertag = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.usertag);
+  const title = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.title);
+  const tags = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.tags);
+  const content = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.content);
+  const cover = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.cover);
+  const canonical = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.canonical);
+  const series = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.series);
+  const postType = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.type);
+  const createdAt = moment__WEBPACK_IMPORTED_MODULE_4___default()().format('YYYY-MM-DD HH:mm:ss');
   const postQuery = `INSERT INTO dev_posts (user_id, user_name, user_avatar, user_tag, title, tags, content, cover_image, canonical, series, post_status, created_at) VALUES('${id}', '${name}', '${avatar}', '${usertag}', '${title}', '${tags}', '${content}', '${cover}', '${canonical}', '${series}', '${postType}', '${createdAt}')`;
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(postQuery, function (err, rows) {
-    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
+    if (err) consola__WEBPACK_IMPORTED_MODULE_2___default.a.error(err);else res.redirect(req.get('referer'));
   });
 });
-const clientThumb = multer__WEBPACK_IMPORTED_MODULE_4___default.a.diskStorage({
+const clientThumb = multer__WEBPACK_IMPORTED_MODULE_5___default.a.diskStorage({
   // ファイルの保存先を指定
   destination: './static/upload/',
   // ファイル名を指定(オリジナルのファイル名を指定)
@@ -328,36 +320,52 @@ const clientThumb = multer__WEBPACK_IMPORTED_MODULE_4___default.a.diskStorage({
     cb(null, file.originalname);
   }
 });
-const upload = multer__WEBPACK_IMPORTED_MODULE_4___default()({
+const upload = multer__WEBPACK_IMPORTED_MODULE_5___default()({
   storage: clientThumb
 });
 router.post('/fileupload', upload.single('thumbnail'), function (req, res) {
   const filepath = './static' + req.body.fileupload;
-  sharp__WEBPACK_IMPORTED_MODULE_5___default()(filepath).resize(1000, 420).toBuffer(function (err, info) {
-    fs__WEBPACK_IMPORTED_MODULE_6___default.a.writeFile(filepath, info, function (e) {
-      if (err) return consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);
+  sharp__WEBPACK_IMPORTED_MODULE_6___default()(filepath).resize(1000, 420).toBuffer(function (err, info) {
+    fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile(filepath, info, function (e) {
+      if (err) return consola__WEBPACK_IMPORTED_MODULE_2___default.a.error(err);
       res.redirect(req.get('referer'));
     });
   });
 });
 router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) {
   const filepath = './static' + req.body.fileupload;
-  sharp__WEBPACK_IMPORTED_MODULE_5___default()(filepath).resize(680).toBuffer(function (err, info) {
-    fs__WEBPACK_IMPORTED_MODULE_6___default.a.writeFile(filepath, info, function (e) {
-      if (err) return consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);
+  sharp__WEBPACK_IMPORTED_MODULE_6___default()(filepath).resize(680).toBuffer(function (err, info) {
+    fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile(filepath, info, function (e) {
+      if (err) return consola__WEBPACK_IMPORTED_MODULE_2___default.a.error(err);
       res.redirect(req.get('referer'));
     });
   });
 });
 router.post('/remove_file', function (req, res) {
   const file = './static' + req.body.filepath;
-  fs__WEBPACK_IMPORTED_MODULE_6___default.a.unlink(file, err => {
+  fs__WEBPACK_IMPORTED_MODULE_0___default.a.unlink(file, err => {
     if (err) throw err;
     res.redirect(req.get('referer'));
   });
 });
 router.get('/get_post', (req, res, next) => {
-  let clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC';
+  const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
+router.get('/get_article/:slug', (req, res, next) => {
+  const title = req.params.slug.replace('-', ' ');
+  const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`;
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
     const users = rows;
 
@@ -401,9 +409,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import xss from 'xss'
 
- // import connection from './mysqlConnect'
 
 
 const app = express__WEBPACK_IMPORTED_MODULE_0___default()();

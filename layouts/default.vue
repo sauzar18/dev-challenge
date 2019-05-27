@@ -52,6 +52,17 @@ li {
 .green {
   background-color: #66e2d5;
 }
+.blue {
+  background-color: #0d36ff;
+  color: #fff;
+}
+a.blue,
+button.blue {
+  &:hover,
+  &:focus {
+    background-color: #0023cf;
+  }
+}
 .st-icon {
   display: flex;
   align-items: center;

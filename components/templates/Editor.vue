@@ -105,7 +105,13 @@ export default {
       cover_image: '',
       canonical: '',
       series: '',
-      remove: false
+      remove: false,
+      autoCompletes: {
+        webpack: 'webpack',
+        javascript: 'javascript',
+        rails: 'rails',
+        php: 'php'
+      }
     }
   },
   watch: {

@@ -35,6 +35,9 @@ export default {
   border-radius: 50%;
   background-color: #ddd;
 }
+button {
+  background-color: transparent;
+}
 i {
   display: flex;
   align-items: center;

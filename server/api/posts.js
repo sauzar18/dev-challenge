@@ -1,13 +1,11 @@
+import fs from 'fs'
 import { Router } from 'express'
 import consola from 'consola'
 import xss from 'xss'
 import moment from 'moment'
 import multer from 'multer'
 import sharp from 'sharp'
-import fs from 'fs'
-// import mkdirp from 'mkdirp-promise'
 import connection from '../mysqlConnect'
-
 const router = Router()
 router.post('/posts', (req, res, next) => {
   const id = xss(req.body.id)
@@ -57,15 +55,30 @@ router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) 
     })
   })
 })
-router.post('/remove_file', function(req, res) {
+router.post('/remove_file', function (req, res) {
   const file = './static' + req.body.filepath
   fs.unlink(file, (err) => {
-    if (err) throw err;
+    if (err) throw err
     res.redirect(req.get('referer'))
   })
 })
 router.get('/get_post', (req, res, next) => {
-  let clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC'
+  const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC'
+  connection.query(clientQuery, function (err, rows) {
+    const users = rows
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      })
+    } else {
+      res.json(users)
+    }
+  })
+})
+router.get('/get_article/:slug', (req, res, next) => {
+  const title = req.params.slug.replace('-', ' ')
+  const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`
   connection.query(clientQuery, function (err, rows) {
     const users = rows
     if (err) {

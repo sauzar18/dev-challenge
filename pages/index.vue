@@ -12,7 +12,16 @@
         <div>
           <period-menu :menus="periods" />
         </div>
-        <list :posts="posts" />
+        <list
+          v-if="posts.toString()"
+          :posts="posts"
+        />
+        <p
+          v-else
+          class="st-nothing"
+        >
+          現在投稿された記事はありません
+        </p>
       </main>
       <div class="st-right">
         <sign-bar v-if="!$auth.$state.user" />
@@ -98,5 +107,9 @@ export default {
 }
 .st-right {
   width: 260px;
+}
+.st-nothing {
+  font-size: 14px;
+  margin: 20px 0;
 }
 </style>

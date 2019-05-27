@@ -7,13 +7,15 @@
     >
       <article>
         <header>
-          <h1>{{ post.title }}</h1>
-          <figure v-if="i === 0">
-            <img
-              :src="post.cover_image"
-              :alt="post.title"
-            >
-          </figure>
+          <n-link :to="`/${post.user_tag}/${post.title.replace( ' ', '-' )}`">
+            <h1>{{ post.title }}</h1>
+            <figure v-if="i === 0">
+              <img
+                :src="post.cover_image"
+                :alt="post.title"
+              >
+            </figure>
+          </n-link>
         </header>
         <div class="st-property">
           <i class="st-icon">
@@ -24,7 +26,7 @@
           </i>
           <div>
             <n-link
-              :to="'/' + post.user_tag"
+              :to="`/${post.user_tag}`"
               class="st-name"
             >
               {{ post.user_name }}・{{ post.created_at | moment }}
@@ -34,16 +36,48 @@
             </n-link>
             <ul class="st-tag__list">
               <li
-                v-for="(tag, i) in post.tags"
+                v-for="(tag, i) in post.tags.split(',')"
                 :key="i"
               >
-                <n-link :to="'/t/' + tag">
+                <n-link :to="`/t/${tag}`">
                   #{{ tag }}
                 </n-link>
               </li>
             </ul>
           </div>
         </div>
+        <footer>
+          <n-link :to="`/${post.user_tag}/${post.title}`">
+            <i>
+              <img
+                src="~static/images/ic_cool.png"
+                alt="いいね数"
+              >
+            </i>
+            {{ isCount(post.user_id) }}
+          </n-link>
+          <n-link :to="`/${post.user_tag}/${post.title}#comment`">
+            <i>
+              <img
+                src="~static/images/ic_comment.png"
+                alt="コメント数"
+              >
+            </i>
+            {{ isComment(post.user_id) }}
+          </n-link>
+          <n-link
+            :to="`/${post.user_tag}/${post.title}`"
+            class="st-read"
+          >
+            min read
+          </n-link>
+          <button
+            type="button"
+            class="st-button blue"
+          >
+            SAVE
+          </button>
+        </footer>
       </article>
     </li>
   </ul>
@@ -63,6 +97,12 @@ export default {
     posts: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    isCount(e) {
+    },
+    isComment(e) {
     }
   }
 }
@@ -93,8 +133,11 @@ h1 {
   order: 2;
 }
 header {
-  display: flex;
-  flex-direction: column;
+  a {
+    display: flex;
+    flex-direction: column;
+    color: #000;
+  }
 }
 .st-property {
   display: flex;
@@ -124,5 +167,31 @@ header {
     }
   }
 }
-
+footer {
+  display: flex;
+  padding: 0 12px;
+  margin-bottom: 16px;
+  a {
+    display: flex;
+    padding: 5px;
+    margin: 0 12px;
+  }
+  i {
+    display: flex;
+    align-items: center;
+  }
+  img {
+    height: 20px;
+  }
+}
+.st-read {
+  margin-left: auto;
+  font-size: 13px;
+  color: #595959;
+}
+.st-button {
+  width: 58px;
+  border-radius: 3px;
+  font-size: 16px;
+}
 </style>

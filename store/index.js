@@ -3,11 +3,15 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export const state = () => ({
+  csrfToken: null,
   authUser: null,
   post: null
 })
 
 export const mutations = {
+  SET_CSRF_TOKEN(state, csrfToken) {
+    state.csrfToken = csrfToken
+  },
   SET_USER(state, user) {
     state.authUser = user
   },

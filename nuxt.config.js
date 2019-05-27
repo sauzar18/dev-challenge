@@ -33,6 +33,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '@/plugins/tag-input', ssr: false }
   ],
 
   /*
@@ -50,16 +51,7 @@ module.exports = {
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
-    browserBaseURL: process.env.BASE_APP_URL || '/',
-    requestInterceptor: (config, {
-      store
-    }) => {
-      if (store.state.csrfToken) {
-        config.headers.common.Authorization = 'Bearer ' + store.state.csrfToken
-        config.headers.common['x-csrf-token'] = store.state.csrfToken
-      }
-      return config
-    }
+    browserBaseURL: process.env.BASE_APP_URL || '/'
   },
   auth: {
     strategies: {
@@ -71,8 +63,8 @@ module.exports = {
     redirect: {
       login: '/',
       logout: '/',
-      callback: '/',
-      home: '/',
+      callback: '/callback',
+      home: '/'
     }
   },
   /*

@@ -108,4 +108,9 @@ button.black {
     list-style: square;
   }
 }
+.st-size {
+  width: 81%;
+  max-width: 710px;
+  margin: 0 auto;
+}
 </style>

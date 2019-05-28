@@ -8,7 +8,7 @@
       @active-button="isCool"
     />
     <count-button
-      v-if="datePosts === true"
+      v-else-if="datePosts === true"
       src="/images/ic_heart.png"
       alt="いいね"
       :count="count"

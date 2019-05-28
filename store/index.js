@@ -5,7 +5,10 @@ Vue.use(Vuex)
 export const state = () => ({
   csrfToken: null,
   authUser: null,
-  post: null
+  post: null,
+  article: null,
+  comment: null,
+  like: null
 })
 
 export const mutations = {
@@ -17,6 +20,15 @@ export const mutations = {
   },
   SET_POST(state, data) {
     state.post = data
+  },
+  SET_ARTICLE(state, data) {
+    state.article = data
+  },
+  SET_COMMENT(state, data) {
+    state.comment = data
+  },
+  SET_LIKE(state, data) {
+    state.like = data
   }
 }
 export const actions = {

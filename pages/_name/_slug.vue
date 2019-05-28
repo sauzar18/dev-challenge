@@ -9,7 +9,29 @@
           :cools="cools"
         />
         <div class="st-center">
-          <article-content :article="article" />
+          <article-content
+            :article="article"
+          />
+          <form
+            method="POST"
+            action="/api/comment"
+          >
+            <input
+              :value="article.id"
+              type="hidden"
+              name="article_id"
+            >
+            <input
+              value="0"
+              type="hidden"
+              name="parent_id"
+            >
+            <comment
+              v-model="comment"
+              class="st-size"
+            />
+          </form>
+          <comment-return class="st-size" />
         </div>
         <div class="st-right" />
       </main>
@@ -20,19 +42,40 @@
 import AppHeader from '~/components/roofs/Header.vue'
 import ArticleContent from '~/components/templates/Article.vue'
 import ArticleCools from '~/components/templates/ArticleCools.vue'
+import Comment from '~/components/parts/Comment.vue'
+import CommentReturn from '~/components/templates/CommentReturn.vue'
 export default {
   components: {
     AppHeader,
     ArticleContent,
-    ArticleCools
+    ArticleCools,
+    Comment,
+    CommentReturn
+  },
+  data() {
+    return {
+      comment: ''
+    }
+  },
+  computed: {
+    article() {
+      return this.$store.state.article
+    }
   },
   async asyncData({ app, store, params, redirect }) {
+    const data = await app.$axios.$get(`/api/coolData`)
+    return { cools: data }
+  },
+  async fetch({ app, store, params, redirect }) {
     const change = params.slug.replace(' ', '-')
-    const [data, data2] = await Promise.all([
-      app.$axios.$get(`/api/get_article/${change}`),
-      app.$axios.$get(`/api/coolData`)
+    const data = await app.$axios.$get(`/api/get_article/${change}`)
+    const [data2, data3] = await Promise.all([
+      app.$axios.$get(`/api/comment/${data[0].id}`),
+      app.$axios.$get(`/api/likeData`)
     ])
-    return { article: data[0], cools: data2 }
+    store.commit('SET_ARTICLE', data[0])
+    store.commit('SET_COMMENT', data2)
+    store.commit('SET_LIKE', data3)
   }
 }
 </script>

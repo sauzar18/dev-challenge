@@ -65,50 +65,12 @@
       class="st-article__content st-size"
       v-html="markDown"
     />
-    <form
-      method="POST"
-      action="/api/comment"
-    >
-      <input
-        :value="article.id"
-        type="hidden"
-        name="article_id"
-      >
-      <input
-        :value="$auth.$state.user.id"
-        type="hidden"
-        name="user_id"
-      >
-      <input
-        :value="$auth.$state.user.name"
-        type="hidden"
-        name="user_name"
-      >
-      <input
-        :value="$auth.$state.user.avatar_url"
-        type="hidden"
-        name="avatar"
-      >
-      <input
-        :value="$auth.$state.user.login"
-        type="hidden"
-        name="user_tag"
-      >
-      <comment
-        v-model="comment"
-        class="st-size"
-      />
-    </form>
   </article>
 </template>
 <script>
 import moment from 'moment'
 import marked from 'marked'
-import Comment from '~/components/templates/Comment.vue'
 export default {
-  components: {
-    Comment
-  },
   filters: {
     moment(date) {
       return moment(date).format('MMM DD')
@@ -129,7 +91,6 @@ export default {
   data() {
     return {
       content: this.article.content,
-      comment: ''
     }
   },
   computed: {
@@ -140,11 +101,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.st-size {
-  width: 81%;
-  max-width: 710px;
-  margin: 0 auto;
-}
 header {
   display: flex;
   flex-direction: column;

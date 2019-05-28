@@ -247,6 +247,64 @@ module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"
 
 /***/ }),
 
+/***/ "./server/api/comment.js":
+/*!*******************************!*\
+  !*** ./server/api/comment.js ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
+
+
+
+
+
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.post('/comment', (req, res, next) => {
+  const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article_id);
+  const parent = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.parent_id);
+  const userId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user_id);
+  const userName = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user_name);
+  const avatar = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.avatar);
+  const userTag = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user_tag);
+  const comment = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.comment);
+  const createdAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const postQuery = `INSERT INTO dev_comments (parent_id, article_id, user_id, user_name, user_avatar, user_tag, comment, created_at) VALUES('${parent}', '${id}', '${userId}', '${userName}', '${avatar}', '${userTag}', '${comment}', '${createdAt}')`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.ready(err);else res.redirect(req.get('referer'));
+  });
+});
+router.get('/comment/:id', (req, res, next) => {
+  const slugQuery = req.params.id;
+  const clientQuery = `SELECT * FROM dev_comments WHERE article_id = "${slugQuery}"`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(clientQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
 /***/ "./server/api/cool.js":
 /*!****************************!*\
   !*** ./server/api/cool.js ***!
@@ -321,6 +379,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _posts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./posts */ "./server/api/posts.js");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./register */ "./server/api/register.js");
 /* harmony import */ var _cool__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cool */ "./server/api/cool.js");
+/* harmony import */ var _like__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./like */ "./server/api/like.js");
+/* harmony import */ var _comment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./comment */ "./server/api/comment.js");
+
+
 
 
 
@@ -329,6 +391,68 @@ const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
 router.use(_posts__WEBPACK_IMPORTED_MODULE_1__["default"]);
 router.use(_register__WEBPACK_IMPORTED_MODULE_2__["default"]);
 router.use(_cool__WEBPACK_IMPORTED_MODULE_3__["default"]);
+router.use(_like__WEBPACK_IMPORTED_MODULE_4__["default"]);
+router.use(_comment__WEBPACK_IMPORTED_MODULE_5__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./server/api/like.js":
+/*!****************************!*\
+  !*** ./server/api/like.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! consola */ "./node_modules/consola/dist/consola.js");
+/* harmony import */ var consola__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(consola__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xss */ "xss");
+/* harmony import */ var xss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(xss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mysqlConnect */ "./server/mysqlConnect.js");
+
+
+
+
+
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+router.post('/like', (req, res, next) => {
+  const articleId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.comment);
+  const userId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
+  const sendAt = moment__WEBPACK_IMPORTED_MODULE_3___default()().format('YYYY-MM-DD HH:mm:ss');
+  const postQuery = `INSERT INTO dev_likes (comment_id, user_id, created_at) VALUES('${articleId}', '${userId}', '${sendAt}')`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
+  });
+});
+router.get('/likeData', (req, res, next) => {
+  const favoriteQuery = 'SELECT * FROM dev_likes';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
+router.post('/likeDelete', (req, res, next) => {
+  const getID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
+  const articleID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.comment);
+  const deleteQuery = `DELETE FROM dev_likes WHERE user_id = ${getID} AND comment_id = ${articleID}`;
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(deleteQuery, function (err, rows) {
+    if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.ready(err);else res.redirect(req.get('referer'));
+  });
+});
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),

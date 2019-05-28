@@ -1,5 +1,25 @@
 <template>
   <div class="st-comment">
+    <input
+      :value="$auth.$state.user.id"
+      type="hidden"
+      name="user_id"
+    >
+    <input
+      :value="$auth.$state.user.name"
+      type="hidden"
+      name="user_name"
+    >
+    <input
+      :value="$auth.$state.user.avatar_url"
+      type="hidden"
+      name="avatar"
+    >
+    <input
+      :value="$auth.$state.user.login"
+      type="hidden"
+      name="user_tag"
+    >
     <textarea
       v-model="internalValue"
       name="comment"
@@ -7,7 +27,10 @@
       rows="10"
       placeholder="Add to the discussion"
     />
-    <div class="st-accept">
+    <div
+      v-if="children === false"
+      class="st-accept"
+    >
       <label>
         <input
           v-model="accept"
@@ -41,13 +64,29 @@
       </button>
       <div class="st-submit">
         <button
+          v-if="children === true"
+          type="button"
+          @click="isCancel"
+          class="st-cancel"
+        >
+          CANCEL
+        </button>
+        <button
           type="button"
           class="black"
         >
           PREVIEW
         </button>
         <button
+          v-if="accept"
           type="submit"
+          class="blue"
+        >
+          SUBMIT
+        </button>
+        <button
+          v-else
+          type="button"
           class="blue"
         >
           SUBMIT
@@ -62,6 +101,11 @@ export default {
     value: {
       type: String,
       required: true
+    },
+    children: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -82,6 +126,11 @@ export default {
         }
       }
     }
+  },
+  methods: {
+    isCancel(e) {
+      this.$emit('cancel-button', e)
+    }
   }
 }
 </script>
@@ -94,6 +143,7 @@ export default {
 .st-comment__footer {
   display: flex;
   align-items: center;
+  margin-top: 8px;
 }
 .st-accept {
   text-align: right;
@@ -141,5 +191,12 @@ i {
     border-radius: 3px;
     font-size: 13px;
   }
+}
+.st-cancel {
+  color: #ff0000;
+  opacity: 0.5;
+  font-weight: bold;
+  font-size: 12px;
+  background-color: transparent;
 }
 </style>

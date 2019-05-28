@@ -47,6 +47,20 @@ module.exports = {
   /*
   ** Axios module configuration
   */
+  manifest: {
+    name: 'dev to',
+    lang: 'ja',
+    short_name: 'dev',
+    title: 'dev to challenge',
+    'og:title': 'dev to challenge',
+    description: 'dev to challenge',
+    'og:description': 'dev to challenge',
+    theme_color: '#000000',
+    background_color: '#ffffff'
+  },
+  workbox: {
+    dev: true,
+  },
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
@@ -71,7 +85,7 @@ module.exports = {
     redirect: {
       login: '/',
       logout: '/',
-      callback: '/callback',
+      callback: '/',
       home: '/'
     }
   },

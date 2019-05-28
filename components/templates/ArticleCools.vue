@@ -64,11 +64,8 @@ export default {
           if (item.article_id === id && item.user_id === userid) return true
         })
       }
-      if (newLine[0]) {
-        return true
-      } else {
-        return false
-      }
+      if (newLine[0]) return true
+      else return false
     }
   },
   methods: {
@@ -111,6 +108,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .st-cool {
-  width: 100px;
+  width: 80px;
 }
 </style>

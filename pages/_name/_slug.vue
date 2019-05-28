@@ -54,8 +54,8 @@ main {
 }
 .st-left {
   position: fixed;
-  top: 120px;
-  left: 0;
+  top: 90px;
+  left: calc(55.5% - 750px);
 }
 .st-right {
   width: 310px;

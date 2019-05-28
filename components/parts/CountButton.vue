@@ -53,16 +53,16 @@ span {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
 }
 i {
-  height: 30px;
-  width: 30px;
+  height: 28px;
+  width: 28px;
   padding: 4px;
   display: flex;
   align-items: center;
-  margin-right: 16px;
+  margin-right: 12px;
   border-radius: 50%;
   background-color: #EDEEF0;
   transition: 0.2s all;

@@ -82,7 +82,6 @@
       :canonical="canonical"
       :series="series"
     />
-    {{ cover_image }}
   </div>
 </template>
 <script>

@@ -48,6 +48,7 @@ li {
 }
 .black {
   background-color: #0a0a0a;
+  color: #fff;
 }
 .green {
   background-color: #66e2d5;
@@ -61,6 +62,13 @@ button.blue {
   &:hover,
   &:focus {
     background-color: #0023cf;
+  }
+}
+a.black,
+button.black {
+  &:hover,
+  &:focus {
+    background-color: rgb(34, 34, 34);
   }
 }
 .st-icon {
@@ -97,7 +105,7 @@ button.blue {
   }
   li {
     margin: 0.3em auto;
-    list-style: disc;
+    list-style: square;
   }
 }
 </style>

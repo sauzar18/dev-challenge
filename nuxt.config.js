@@ -62,7 +62,7 @@ module.exports = {
     dev: false,
   },
   axios: {
-    baseURL: 'https://dev-problem.herokuapp.com/',
+    // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
     browserBaseURL: process.env.BASE_APP_URL || '/'
   },

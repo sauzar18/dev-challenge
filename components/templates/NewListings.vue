@@ -6,7 +6,7 @@
     <ul>
       <li
         v-for="list in lists"
-        :key="list"
+        :key="list.id"
       >
         <n-link to="#">
           <span>

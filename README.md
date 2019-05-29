@@ -81,6 +81,9 @@ function地獄にならずに、オブジェクト指向で開発ができる点
 
 ## Build Setup
 
+対象のプロジェクト上で下記を実行してください。  
+また、sqlはフォルダ内のdev_db.sqlです。
+
 ``` bash
 # install dependencies
 $ yarn install

@@ -69,7 +69,9 @@
                 alt="コメント数"
               >
             </i>
-            {{ isComment(post.user_id) }}
+            <span class="st-count">
+              {{ isComment(post.id) }}
+            </span>
           </n-link>
           <n-link
             :to="`/${post.user_tag}/${post.title}`"
@@ -107,6 +109,10 @@ export default {
     cools: {
       type: Array,
       required: true
+    },
+    comments: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -114,7 +120,8 @@ export default {
       lists: this.posts,
       busy: false,
       count: 10,
-      cool: this.cools
+      cool: this.cools,
+      comment: this.comments
     }
   },
   methods: {
@@ -128,7 +135,15 @@ export default {
       })
       return Number(list.length)
     },
-    isComment(e) {
+    isComment(id) {
+      let list = this.comment
+      list = list.filter(function (row) {
+        if (row.article_id !== id) {
+          return false
+        }
+        return row
+      })
+      return Number(list.length)
     },
     loadMore() {
       this.busy = true

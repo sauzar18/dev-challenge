@@ -18,6 +18,7 @@
           v-if="posts.toString()"
           :posts="posts"
           :cools="cools"
+          :comments="comments"
         />
         <p
           v-else
@@ -96,11 +97,12 @@ export default {
     }
   },
   async asyncData({ app, store, params, redirect }) {
-    const [data, data2] = await Promise.all([
+    const [data, data2, data3] = await Promise.all([
       app.$axios.$get('/api/get_post'),
-      app.$axios.$get(`/api/coolData`)
+      app.$axios.$get(`/api/coolData`),
+      app.$axios.$get('/api/commentData')
     ])
-    return { posts: data, cools: data2 }
+    return { posts: data, cools: data2, comments: data3 }
   },
   async fetch({ app, store, params, redirect }) {
   }

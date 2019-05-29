@@ -302,6 +302,21 @@ router.post('/comment', (req, res, next) => {
     if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.ready(err);else res.redirect(req.get('referer'));
   });
 });
+router.get('/commentData', (req, res, next) => {
+  const favoriteQuery = 'SELECT * FROM dev_comments';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
 router.get('/comment/:id', (req, res, next) => {
   const slugQuery = req.params.id;
   const clientQuery = `SELECT * FROM dev_comments WHERE article_id = "${slugQuery}"`;

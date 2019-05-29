@@ -19,6 +19,17 @@ router.post('/comment', (req, res, next) => {
     else res.redirect(req.get('referer'))
   })
 })
+router.get('/commentData', (req, res, next) => {
+  const favoriteQuery = 'SELECT * FROM dev_comments'
+  connection.query(favoriteQuery, function (err, rows) {
+    const users = rows
+    if (err) {
+      res.json({ Error: true, Message: 'Error executing MySQL query' })
+    } else {
+      res.json(users)
+    }
+  })
+})
 router.get('/comment/:id', (req, res, next) => {
   const slugQuery = req.params.id
   const clientQuery = `SELECT * FROM dev_comments WHERE article_id = "${slugQuery}"`

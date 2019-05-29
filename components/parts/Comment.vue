@@ -1,21 +1,25 @@
 <template>
   <div class="st-comment">
     <input
+      v-if="$auth.$state.user"
       :value="$auth.$state.user.id"
       type="hidden"
       name="user_id"
     >
     <input
+      v-if="$auth.$state.user"
       :value="$auth.$state.user.name"
       type="hidden"
       name="user_name"
     >
     <input
+      v-if="$auth.$state.user"
       :value="$auth.$state.user.avatar_url"
       type="hidden"
       name="avatar"
     >
     <input
+      v-if="$auth.$state.user"
       :value="$auth.$state.user.login"
       type="hidden"
       name="user_tag"

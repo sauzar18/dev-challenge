@@ -59,7 +59,7 @@ module.exports = {
     background_color: '#ffffff'
   },
   workbox: {
-    dev: true,
+    dev: false,
   },
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',

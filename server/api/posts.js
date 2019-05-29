@@ -76,6 +76,20 @@ router.get('/get_post', (req, res, next) => {
     }
   })
 })
+router.get('/get_new_post', (req, res, next) => {
+  const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC LIMIT 8'
+  connection.query(clientQuery, function (err, rows) {
+    const users = rows
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      })
+    } else {
+      res.json(users)
+    }
+  })
+})
 router.get('/get_article/:slug', (req, res, next) => {
   const title = req.params.slug.replace('-', ' ')
   const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`

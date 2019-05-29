@@ -88,6 +88,7 @@ export default {
   border-radius: 3px;
   background-color: #fff;
   overflow: hidden;
+  padding-bottom: 20px;
 }
 .st-main {
   margin: 24px auto;

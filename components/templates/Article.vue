@@ -77,9 +77,6 @@ export default {
     },
     fromnow(date) {
       return moment(date).fromNow()
-    },
-    markdown(data) {
-      return marked(data)
     }
   },
   props: {

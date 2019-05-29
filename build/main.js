@@ -183,6 +183,20 @@ module.exports = {
   /*
   ** Axios module configuration
   */
+  manifest: {
+    name: 'dev to',
+    lang: 'ja',
+    short_name: 'dev',
+    title: 'dev to challenge',
+    'og:title': 'dev to challenge',
+    description: 'dev to challenge',
+    'og:description': 'dev to challenge',
+    theme_color: '#000000',
+    background_color: '#ffffff'
+  },
+  workbox: {
+    dev: false
+  },
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
@@ -207,7 +221,7 @@ module.exports = {
     redirect: {
       login: '/',
       logout: '/',
-      callback: '/callback',
+      callback: '/',
       home: '/'
     }
   },
@@ -559,6 +573,21 @@ router.get('/get_post', (req, res, next) => {
     }
   });
 });
+router.get('/get_new_post', (req, res, next) => {
+  const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC LIMIT 8';
+  _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
+    const users = rows;
+
+    if (err) {
+      res.json({
+        Error: true,
+        Message: 'Error executing MySQL query'
+      });
+    } else {
+      res.json(users);
+    }
+  });
+});
 router.get('/get_article/:slug', (req, res, next) => {
   const title = req.params.slug.replace('-', ' ');
   const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`;
@@ -715,6 +744,13 @@ const dbConfig = {
   user: 'root',
   database: 'dev_db',
   password: '',
+
+  /*
+  host: 'us-cdbr-iron-east-02.cleardb.net',
+  user: 'b1038310007f5e',
+  database: 'heroku_1e39c00e23ca36c',
+  password: '4cf9784b',
+  */
   multipleStatements: true
 };
 const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default.a.createConnection(dbConfig);

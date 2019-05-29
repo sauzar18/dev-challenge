@@ -58,9 +58,10 @@
           </button>
         </div>
       </div>
-      <p class="st-comment">
-        {{ item.comment }}
-      </p>
+      <div
+        class="st-comment"
+        v-html="markDown(item.comment)"
+      />
       <div class="st-comment__footer">
         <div class="st-comment__button">
           <button
@@ -190,9 +191,10 @@
               </button>
             </div>
           </div>
-          <p class="st-comment">
-            {{ child.comment }}
-          </p>
+          <div
+            class="st-comment"
+            v-html="markDown(item.comment)"
+          />
           <div class="st-comment__footer">
             <div class="st-comment__button">
               <button
@@ -259,6 +261,7 @@
 </template>
 <script>
 import moment from 'moment'
+import marked from 'marked'
 import Comment from '~/components/parts/Comment.vue'
 export default {
   components: {
@@ -285,6 +288,9 @@ export default {
     }
   },
   methods: {
+    markDown(e) {
+      return marked(e)
+    },
     isToggle(e) {
       e.currentTarget.parentNode.classList.toggle('close')
     },
@@ -303,9 +309,11 @@ export default {
         newLine = date.filter(function (item, index) {
           if (item.comment_id === id && item.user_id === userid) return true
         })
+        if (newLine[0]) return true
+        else return false
+      } else {
+        return false
       }
-      if (newLine[0]) return true
-      else return false
     },
     childComment(id) {
       let list = this.lists
@@ -364,6 +372,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+button {
+  background-color: transparent;
+}
 .st-close__message {
   font-style: oblique;
   margin-left: 8px;

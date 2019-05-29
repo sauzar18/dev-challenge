@@ -63,9 +63,11 @@ export default {
         newLine = date.filter(function (item, index) {
           if (item.article_id === id && item.user_id === userid) return true
         })
+        if (newLine[0]) return true
+        else return false
+      } else {
+        return true
       }
-      if (newLine[0]) return true
-      else return false
     }
   },
   methods: {

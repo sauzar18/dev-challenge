@@ -25,6 +25,7 @@
       </main>
       <div class="st-right">
         <sign-bar v-if="!$auth.$state.user" />
+        <new-listings />
       </div>
     </div>
   </div>
@@ -36,6 +37,7 @@ import PeriodMenu from '~/components/templates/PeriodMenu.vue'
 import SignBar from '~/components/templates/SignBar.vue'
 import List from '~/components/templates/List.vue'
 import MyLink from '~/components/roofs/MyLink.vue'
+import NewListings from '~/components/templates/NewListings.vue'
 export default {
   components: {
     AppHeader,
@@ -43,7 +45,8 @@ export default {
     PeriodMenu,
     SignBar,
     List,
-    MyLink
+    MyLink,
+    NewListings
   },
   data() {
     return {

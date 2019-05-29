@@ -80,9 +80,10 @@ function地獄にならずに、オブジェクト指向で開発ができる点
 個人的には導入事例はまだまだ少ないので、知見を深めてWEB制作に導入していきたい。
 
 ## Build Setup
-
 対象のプロジェクト上で下記を実行してください。  
 また、sqlはフォルダ内のdev_db.sqlです。
+
+ログインはGithubのみ実装しました。
 
 ``` bash
 # install dependencies

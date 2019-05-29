@@ -778,16 +778,17 @@ __webpack_require__.r(__webpack_exports__);
  // mysqlに接続
 
 const dbConfig = {
-  /*
   host: 'localhost',
   user: 'root',
   database: 'dev_db',
   password: '',
-  */
+
+  /*
   host: 'us-cdbr-iron-east-02.cleardb.net',
   user: 'b1038310007f5e',
   database: 'heroku_1e39c00e23ca36c',
   password: '4cf9784b',
+  */
   multipleStatements: true
 };
 const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default.a.createConnection(dbConfig);

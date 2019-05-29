@@ -171,7 +171,7 @@ export default {
         .then(() => (this.pathActive = true))
         .catch(error => (this.upError = error.response.data.error))
     },
-    //　画像を削除する機能
+    // 画像を削除する機能
     async isRemove() {
       try {
         await this.$store.dispatch('removeFile', {

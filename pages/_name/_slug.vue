@@ -13,6 +13,7 @@
             :article="article"
           />
           <form
+            v-if="$auth.$state.user"
             method="POST"
             action="/api/comment"
           >
@@ -33,7 +34,10 @@
           </form>
           <comment-return class="st-size" />
         </div>
-        <div class="st-right" />
+        <author
+          :author="this.$store.state.article"
+          class="st-right"
+        />
       </main>
     </div>
   </div>
@@ -44,13 +48,15 @@ import ArticleContent from '~/components/templates/Article.vue'
 import ArticleCools from '~/components/templates/ArticleCools.vue'
 import Comment from '~/components/parts/Comment.vue'
 import CommentReturn from '~/components/templates/CommentReturn.vue'
+import Author from '~/components/roofs/Author.vue'
 export default {
   components: {
     AppHeader,
     ArticleContent,
     ArticleCools,
     Comment,
-    CommentReturn
+    CommentReturn,
+    Author
   },
   data() {
     return {
@@ -95,6 +101,9 @@ export default {
 }
 main {
   display: flex;
+  width: 1250px;
+  margin: 0 auto;
+  align-items: flex-start;
 }
 .st-left {
   position: fixed;
@@ -103,5 +112,7 @@ main {
 }
 .st-right {
   width: 310px;
+  position: sticky;
+  top: 62px;
 }
 </style>

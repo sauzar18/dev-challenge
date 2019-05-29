@@ -45,6 +45,7 @@ section {
   border: 1px solid #003ee6;
   box-shadow: 5px 6px 0px #0030b3;
   border-radius: 3px;
+  margin-bottom: 20px;
 }
 h1 {
   background-color: #003ee6;

@@ -10,15 +10,18 @@
 <script>
 import CommentList from '~/components/templates/CommentList.vue'
 export default {
+  // コンポーネントを登録
   components: {
     CommentList
   },
   data() {
     return {
+      // listをstoreから取得
       lists: this.$store.state.comment
     }
   },
   computed: {
+    // 親要素を取得する
     parentComment() {
       let list = this.lists
       list = list.filter(function (row) {

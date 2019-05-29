@@ -15,6 +15,7 @@
 </template>
 <script>
 export default {
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     link: {
       type: String,
@@ -31,6 +32,7 @@ export default {
     }
   },
   methods: {
+    // emitで親要素のクリックイベントを取得
     isAction() {
       this.$emit('login')
     }

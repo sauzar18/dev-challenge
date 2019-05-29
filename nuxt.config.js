@@ -45,9 +45,7 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/auth'
   ],
-  /*
-  ** Axios module configuration
-  */
+  // pwa setting
   manifest: {
     name: 'dev to',
     lang: 'ja',
@@ -62,11 +60,15 @@ module.exports = {
   workbox: {
     dev: false,
   },
+  /*
+  ** Axios module configuration
+  */
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
     browserBaseURL: process.env.BASE_APP_URL || '/'
   },
+  // auth relations setting
   auth: {
     strategies: {
       local: {

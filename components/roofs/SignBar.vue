@@ -21,6 +21,7 @@
 import DefaultButton from '~/components/parts/DefaultButton.vue'
 export default {
   components: {
+    // コンポーネントを登録
     DefaultButton
   },
   data() {
@@ -29,6 +30,7 @@ export default {
     }
   },
   methods: {
+    // login 処理
     async LoginGitHub() {
       try {
         await this.$auth.loginWith('github')

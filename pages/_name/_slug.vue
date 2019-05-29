@@ -3,15 +3,18 @@
     <app-header />
     <div class="st-main">
       <main>
+        <!-- いいねの一覧を取得 -->
         <article-cools
           class="st-left"
           :article-id="article.id"
           :cools="cools"
         />
         <div class="st-center">
+          <!-- 記事を取得 -->
           <article-content
             :article="article"
           />
+          <!-- コメントをPOST -->
           <form
             v-if="$auth.$state.user"
             method="POST"
@@ -27,13 +30,16 @@
               type="hidden"
               name="parent_id"
             >
+            <!-- コメントフォーム -->
             <comment
               v-model="comment"
               class="st-size"
             />
           </form>
+          <!-- コメントの一覧を取得 -->
           <comment-return class="st-size" />
         </div>
+        <!-- 投稿者情報を取得 -->
         <author
           :author="this.$store.state.article"
           class="st-right"
@@ -68,17 +74,21 @@ export default {
       return this.$store.state.article
     }
   },
+  // storeで管理しないdataを取得
   async asyncData({ app, store, params, redirect }) {
     const data = await app.$axios.$get(`/api/coolData`)
     return { cools: data }
   },
+  // storeで管理するdataを取得
   async fetch({ app, store, params, redirect }) {
+    // 今回はタイトルをゲットする値にしている、スペースがある場合は-に変換
     const change = params.slug.replace(' ', '-')
     const data = await app.$axios.$get(`/api/get_article/${change}`)
     const [data2, data3] = await Promise.all([
       app.$axios.$get(`/api/comment/${data[0].id}`),
       app.$axios.$get(`/api/likeData`)
     ])
+    // storeに格納
     store.commit('SET_ARTICLE', data[0])
     store.commit('SET_COMMENT', data2)
     store.commit('SET_LIKE', data3)

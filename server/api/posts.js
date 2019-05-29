@@ -7,6 +7,7 @@ import multer from 'multer'
 import sharp from 'sharp'
 import connection from '../mysqlConnect'
 const router = Router()
+// 記事を投稿する機能
 router.post('/posts', (req, res, next) => {
   const id = xss(req.body.id)
   const name = xss(req.body.name)
@@ -26,6 +27,7 @@ router.post('/posts', (req, res, next) => {
     else res.redirect(req.get('referer'))
   })
 })
+// multerでファイルアップロード機能を作成
 const clientThumb = multer.diskStorage({
   // ファイルの保存先を指定
   destination: './static/upload/',
@@ -37,6 +39,7 @@ const clientThumb = multer.diskStorage({
 const upload = multer({
   storage: clientThumb
 })
+// アップロード後sharpで画像のリサイズをしている
 router.post('/fileupload', upload.single('thumbnail'), function (req, res) {
   const filepath = './static' + req.body.fileupload
   sharp(filepath).resize(1000, 420).toBuffer(function (err, info) {
@@ -55,6 +58,7 @@ router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) 
     })
   })
 })
+// 画像の削除
 router.post('/remove_file', function (req, res) {
   const file = './static' + req.body.filepath
   fs.unlink(file, (err) => {
@@ -62,6 +66,7 @@ router.post('/remove_file', function (req, res) {
     res.redirect(req.get('referer'))
   })
 })
+// 公開記事の取得
 router.get('/get_post', (req, res, next) => {
   const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC'
   connection.query(clientQuery, function (err, rows) {
@@ -76,6 +81,7 @@ router.get('/get_post', (req, res, next) => {
     }
   })
 })
+// 新規8件を取得
 router.get('/get_new_post', (req, res, next) => {
   const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC LIMIT 8'
   connection.query(clientQuery, function (err, rows) {
@@ -90,6 +96,7 @@ router.get('/get_new_post', (req, res, next) => {
     }
   })
 })
+// slugに応じた記事の取得、ここはこのままだとエラーになる要因があるので、改善が必要
 router.get('/get_article/:slug', (req, res, next) => {
   const title = req.params.slug.replace('-', ' ')
   const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`

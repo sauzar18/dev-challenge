@@ -40,6 +40,7 @@ export default {
     }
   },
   methods: {
+    // ログアウト処理
     async logout() {
       try {
         await this.$auth.logout('github')

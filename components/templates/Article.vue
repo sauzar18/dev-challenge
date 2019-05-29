@@ -68,9 +68,12 @@
   </article>
 </template>
 <script>
+// moment.jsで時間の形を変形する
 import moment from 'moment'
+// markedでマークダウンで書かれたものをHTMLに変換
 import marked from 'marked'
 export default {
+  // filtersでデータを変換できるテンプレートを登録
   filters: {
     moment(date) {
       return moment(date).format('MMM DD')
@@ -79,6 +82,7 @@ export default {
       return moment(date).fromNow()
     }
   },
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     article: {
       type: Object,
@@ -90,6 +94,7 @@ export default {
       content: this.article.content,
     }
   },
+  // 算出プロパティでmarkdownを変換
   computed: {
     markDown() {
       return marked(this.content)

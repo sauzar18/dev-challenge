@@ -4,6 +4,7 @@ import xss from 'xss'
 import moment from 'moment'
 import connection from '../mysqlConnect'
 const router = Router()
+// いいね機能
 router.post('/cool', (req, res, next) => {
   const articleId = xss(req.body.article)
   const userId = xss(req.body.user)
@@ -14,6 +15,7 @@ router.post('/cool', (req, res, next) => {
     else res.redirect(req.get('referer'))
   })
 })
+// いいね数を取得
 router.get('/coolData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_cools'
   connection.query(favoriteQuery, function (err, rows) {
@@ -25,6 +27,7 @@ router.get('/coolData', (req, res, next) => {
     }
   })
 })
+// いいねを取り消す
 router.post('/coolDelete', (req, res, next) => {
   const getID = xss(req.body.user)
   const articleID = xss(req.body.article)

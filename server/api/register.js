@@ -4,6 +4,7 @@ import xss from 'xss'
 import moment from 'moment'
 import connection from '../mysqlConnect'
 const router = Router()
+// 登録機能
 router.post('/register', (req, res, next) => {
   const id = xss(req.body.id)
   const name = xss(req.body.name)

@@ -33,13 +33,16 @@ export const mutations = {
 }
 export const actions = {
   nuxtServerInit({ commit }, { req }) {
+    // 今回は対応できなかったが、localでの認証の際にはsessionでユーザーを管理
     if (req.session && req.session.authUser) {
       commit('SET_USER', req.session.authUser)
     }
+    // csrf対策のためにTokenを取得
     if (req.cookies) {
       commit('SET_CSRF_TOKEN', req.cookies['auth._token._csrf'])
     }
   },
+  // 記事の投稿をしている
   post({ commit }, { id, name, avatar, usertag, title, tags, content, cover, canonical, series, type, _csrf }) {
     return fetch('/api/posts', {
       credentials: 'same-origin',
@@ -62,6 +65,7 @@ export const actions = {
         commit('SET_POST', post)
       })
   },
+  // ファイル削除をPOSTしている
   removeFile({ commit }, { filepath, _csrf }) {
     return fetch('/api/remove_file', {
       credentials: 'same-origin',

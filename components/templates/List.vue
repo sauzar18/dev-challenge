@@ -1,4 +1,5 @@
 <template>
+  <!-- vue infinite scrool を使い無限スクロールを実装 -->
   <ul
     v-infinite-scroll="loadMore"
     infinite-scroll-disabled="busy"
@@ -93,6 +94,7 @@
 <script>
 import moment from 'moment'
 export default {
+  // filtersでデータを変換できるテンプレートを登録
   filters: {
     moment(date) {
       return moment(date).format('MMM DD')
@@ -101,6 +103,7 @@ export default {
       return moment(date).fromNow()
     }
   },
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     posts: {
       type: Array,
@@ -125,6 +128,7 @@ export default {
     }
   },
   methods: {
+    // 記事のいいね数を取得
     isCount(id) {
       let list = this.cool
       list = list.filter(function (row) {
@@ -135,6 +139,7 @@ export default {
       })
       return Number(list.length)
     },
+    // コメントのいいね数を取得
     isComment(id) {
       let list = this.comment
       list = list.filter(function (row) {
@@ -145,6 +150,7 @@ export default {
       })
       return Number(list.length)
     },
+    // 10記事見た際に事実行する
     loadMore() {
       this.busy = true
       if (this.lists.length > 10) {

@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     text: {
       type: String,
@@ -20,6 +21,7 @@ export default {
   },
   methods: {
     isEvent() {
+      // emitで親要素のクリックイベントを取得
       this.$emit('active-button')
     }
   }

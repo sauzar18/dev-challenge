@@ -4,6 +4,7 @@ import xss from 'xss'
 import moment from 'moment'
 import connection from '../mysqlConnect'
 const router = Router()
+// コメントのいいねをする機能
 router.post('/like', (req, res, next) => {
   const articleId = xss(req.body.comment)
   const userId = xss(req.body.user)
@@ -14,6 +15,7 @@ router.post('/like', (req, res, next) => {
     else res.redirect(req.get('referer'))
   })
 })
+// いいね数の取得
 router.get('/likeData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_likes'
   connection.query(favoriteQuery, function (err, rows) {
@@ -25,6 +27,7 @@ router.get('/likeData', (req, res, next) => {
     }
   })
 })
+// いいねの取り消し
 router.post('/likeDelete', (req, res, next) => {
   const getID = xss(req.body.user)
   const articleID = xss(req.body.comment)

@@ -16,6 +16,7 @@
 </template>
 <script>
 export default {
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     count: {
       type: Number,
@@ -31,6 +32,7 @@ export default {
     }
   },
   methods: {
+    // emitで親要素のクリックイベントを取得
     isButton() {
       this.$emit('active-button')
     }

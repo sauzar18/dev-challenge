@@ -4,6 +4,7 @@ import xss from 'xss'
 import moment from 'moment'
 import connection from '../mysqlConnect'
 const router = Router()
+// commentを追加する処理
 router.post('/comment', (req, res, next) => {
   const id = xss(req.body.article_id)
   const parent = xss(req.body.parent_id)
@@ -19,6 +20,7 @@ router.post('/comment', (req, res, next) => {
     else res.redirect(req.get('referer'))
   })
 })
+// commentのデータを取得
 router.get('/commentData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_comments'
   connection.query(favoriteQuery, function (err, rows) {
@@ -30,6 +32,7 @@ router.get('/commentData', (req, res, next) => {
     }
   })
 })
+// 記事に連動したコメントの取得
 router.get('/comment/:id', (req, res, next) => {
   const slugQuery = req.params.id
   const clientQuery = `SELECT * FROM dev_comments WHERE article_id = "${slugQuery}"`

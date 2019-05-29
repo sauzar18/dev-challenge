@@ -67,6 +67,7 @@
       @done-button="isDone"
       @uploaded-button="isUpload"
     />
+    <!-- canonical URLを入力するコンポーネントを取得 -->
     <canonical-box
       :class="{ active: isActive2 }"
       class="st-modal"
@@ -74,6 +75,7 @@
       @change-series="isSeries"
       @done-button="isDone2"
     />
+    <!-- エディターを操作するコンポーネントを取得 -->
     <editor-footer
       :title="article_title"
       :tags="tags"
@@ -113,6 +115,7 @@ export default {
       }
     }
   },
+  // 新規入力した内容をローカルストレージに入れる
   watch: {
     article_title(newValue) {
       localStorage.article_title = newValue
@@ -124,6 +127,7 @@ export default {
       localStorage.content = newValue
     }
   },
+  // 入力した内容をローカルストレージに入れる
   mounted() {
     if (localStorage.article_title) {
       this.article_title = localStorage.article_title

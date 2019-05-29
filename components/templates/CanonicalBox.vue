@@ -12,6 +12,7 @@
             type="text"
             @change="isCanonical"
           >
+          <!-- changeしたタイミングで発火 -->
         </div>
         <p>Change meta tagcanonical_url if this post was first published elsewhere (like your own blog)</p>
         <div class="st-textfield">
@@ -52,6 +53,7 @@ export default {
     }
   },
   methods: {
+    // emitで親要素のクリックイベントを取得し、値を受け渡す
     isDone() {
       this.$emit('done-button', false)
     },

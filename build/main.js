@@ -182,10 +182,7 @@ module.exports = {
   */
   modules: [// Doc: https://axios.nuxtjs.org/usage
   '@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/auth'],
-
-  /*
-  ** Axios module configuration
-  */
+  // pwa setting
   manifest: {
     name: 'dev to',
     lang: 'ja',
@@ -200,11 +197,16 @@ module.exports = {
   workbox: {
     dev: false
   },
+
+  /*
+  ** Axios module configuration
+  */
   axios: {
     // baseURL: 'https://dev-problem.herokuapp.com/',
     credentials: false,
     browserBaseURL: process.env.BASE_APP_URL || '/'
   },
+  // auth relations setting
   auth: {
     strategies: {
       local: {
@@ -287,7 +289,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])(); // commentを追加する処理
+
 router.post('/comment', (req, res, next) => {
   const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article_id);
   const parent = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.parent_id);
@@ -301,7 +304,8 @@ router.post('/comment', (req, res, next) => {
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
     if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.ready(err);else res.redirect(req.get('referer'));
   });
-});
+}); // commentのデータを取得
+
 router.get('/commentData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_comments';
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
@@ -316,7 +320,8 @@ router.get('/commentData', (req, res, next) => {
       res.json(users);
     }
   });
-});
+}); // 記事に連動したコメントの取得
+
 router.get('/comment/:id', (req, res, next) => {
   const slugQuery = req.params.id;
   const clientQuery = `SELECT * FROM dev_comments WHERE article_id = "${slugQuery}"`;
@@ -360,7 +365,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])(); // いいね機能
+
 router.post('/cool', (req, res, next) => {
   const articleId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article);
   const userId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
@@ -369,7 +375,8 @@ router.post('/cool', (req, res, next) => {
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
     if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
   });
-});
+}); // いいね数を取得
+
 router.get('/coolData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_cools';
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
@@ -384,7 +391,8 @@ router.get('/coolData', (req, res, next) => {
       res.json(users);
     }
   });
-});
+}); // いいねを取り消す
+
 router.post('/coolDelete', (req, res, next) => {
   const getID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
   const articleID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.article);
@@ -452,7 +460,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])(); // コメントのいいねをする機能
+
 router.post('/like', (req, res, next) => {
   const articleId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.comment);
   const userId = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
@@ -461,7 +470,8 @@ router.post('/like', (req, res, next) => {
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(postQuery, function (err, rows) {
     if (err) consola__WEBPACK_IMPORTED_MODULE_1___default.a.error(err);else res.redirect(req.get('referer'));
   });
-});
+}); // いいね数の取得
+
 router.get('/likeData', (req, res, next) => {
   const favoriteQuery = 'SELECT * FROM dev_likes';
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_4__["default"].query(favoriteQuery, function (err, rows) {
@@ -476,7 +486,8 @@ router.get('/likeData', (req, res, next) => {
       res.json(users);
     }
   });
-});
+}); // いいねの取り消し
+
 router.post('/likeDelete', (req, res, next) => {
   const getID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.user);
   const articleID = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.comment);
@@ -521,7 +532,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_1__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_1__["Router"])(); // 記事を投稿する機能
+
 router.post('/posts', (req, res, next) => {
   const id = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.id);
   const name = xss__WEBPACK_IMPORTED_MODULE_3___default()(req.body.name);
@@ -539,7 +551,8 @@ router.post('/posts', (req, res, next) => {
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(postQuery, function (err, rows) {
     if (err) consola__WEBPACK_IMPORTED_MODULE_2___default.a.error(err);else res.redirect(req.get('referer'));
   });
-});
+}); // multerでファイルアップロード機能を作成
+
 const clientThumb = multer__WEBPACK_IMPORTED_MODULE_5___default.a.diskStorage({
   // ファイルの保存先を指定
   destination: './static/upload/',
@@ -550,7 +563,8 @@ const clientThumb = multer__WEBPACK_IMPORTED_MODULE_5___default.a.diskStorage({
 });
 const upload = multer__WEBPACK_IMPORTED_MODULE_5___default()({
   storage: clientThumb
-});
+}); // アップロード後sharpで画像のリサイズをしている
+
 router.post('/fileupload', upload.single('thumbnail'), function (req, res) {
   const filepath = './static' + req.body.fileupload;
   sharp__WEBPACK_IMPORTED_MODULE_6___default()(filepath).resize(1000, 420).toBuffer(function (err, info) {
@@ -568,14 +582,16 @@ router.post('/fileupload_body', upload.single('thumbnail'), function (req, res) 
       res.redirect(req.get('referer'));
     });
   });
-});
+}); // 画像の削除
+
 router.post('/remove_file', function (req, res) {
   const file = './static' + req.body.filepath;
   fs__WEBPACK_IMPORTED_MODULE_0___default.a.unlink(file, err => {
     if (err) throw err;
     res.redirect(req.get('referer'));
   });
-});
+}); // 公開記事の取得
+
 router.get('/get_post', (req, res, next) => {
   const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC';
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
@@ -590,7 +606,8 @@ router.get('/get_post', (req, res, next) => {
       res.json(users);
     }
   });
-});
+}); // 新規8件を取得
+
 router.get('/get_new_post', (req, res, next) => {
   const clientQuery = 'SELECT * FROM dev_posts WHERE post_status = "publish" ORDER BY id DESC LIMIT 8';
   _mysqlConnect__WEBPACK_IMPORTED_MODULE_7__["default"].query(clientQuery, function (err, rows) {
@@ -605,7 +622,8 @@ router.get('/get_new_post', (req, res, next) => {
       res.json(users);
     }
   });
-});
+}); // slugに応じた記事の取得、ここはこのままだとエラーになる要因があるので、改善が必要
+
 router.get('/get_article/:slug', (req, res, next) => {
   const title = req.params.slug.replace('-', ' ');
   const clientQuery = `SELECT * FROM dev_posts WHERE post_status = 'publish' AND title = '${title}' ORDER BY id DESC`;
@@ -649,7 +667,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])();
+const router = Object(express__WEBPACK_IMPORTED_MODULE_0__["Router"])(); // 登録機能
+
 router.post('/register', (req, res, next) => {
   const id = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.id);
   const name = xss__WEBPACK_IMPORTED_MODULE_2___default()(req.body.name);
@@ -756,19 +775,19 @@ start();
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mysql */ "mysql");
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
+ // mysqlに接続
 
 const dbConfig = {
+  /*
   host: 'localhost',
   user: 'root',
   database: 'dev_db',
   password: '',
-
-  /*
+  */
   host: 'us-cdbr-iron-east-02.cleardb.net',
   user: 'b1038310007f5e',
   database: 'heroku_1e39c00e23ca36c',
   password: '4cf9784b',
-  */
   multipleStatements: true
 };
 const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default.a.createConnection(dbConfig);

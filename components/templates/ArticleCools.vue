@@ -33,6 +33,7 @@ export default {
   components: {
     CountButton
   },
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     cools: {
       type: Array,
@@ -50,6 +51,7 @@ export default {
     }
   },
   computed: {
+    // いいね数を取得
     count() {
       return Number(this.cool.length)
     },
@@ -58,6 +60,7 @@ export default {
       const id = this.articleId
       let userid
       let newLine
+      // ログインユーザーがいいねをしていたら、trueになるようにfilterで検索
       if (this.$auth.$state.user) {
         userid = this.$auth.$state.user.id
         newLine = date.filter(function (item, index) {
@@ -71,6 +74,7 @@ export default {
     }
   },
   methods: {
+    // いいねをするためにaxiosでPOSTする
     async isCool() {
       await this.$axios.$post('/api/cool', {
         article: this.articleId,
@@ -78,12 +82,15 @@ export default {
         _csrf: this.$store.state.csrfToken
       })
         .then((result) => {
+          // いいねがデータベースに格納されたら、一時的に値を代入してあげる
+          // ここはもっといい方法がありそう
           this.cool.push({ article_id: this.articleId, user_id: this.$auth.$state.user.id })
         })
         .catch((err) => {
           this.upError = err
         })
     },
+    // いいねの取り消し
     async isUnCool() {
       await this.$axios.$post('/api/coolDelete', {
         article: this.articleId,
@@ -96,6 +103,8 @@ export default {
           if (this.$auth.$state.user.id) {
             id = this.$auth.$state.user.id
           }
+          // いいねを削除後、一時的にいいねをした配列を削除
+          // ここももっといい方法がありそう
           const list = this.cool.filter(function (row, index) {
             return (row.article_id !== art || row.user_id !== id)
           })

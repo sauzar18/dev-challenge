@@ -1,4 +1,5 @@
 <template>
+  <!-- new listing list -->
   <section class="st-listing">
     <div class="st-title">
       <h1>newest listings</h1>

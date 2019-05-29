@@ -81,6 +81,7 @@
 </template>
 <script>
 export default {
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     remove: {
       type: Boolean,
@@ -98,6 +99,7 @@ export default {
       pathActive: false
     }
   },
+  // ローカルストレージを新規値で更新
   watch: {
     filepath(newName) {
       localStorage.filepath = newName
@@ -106,6 +108,7 @@ export default {
       localStorage.image = newName
     }
   },
+  // ローカルストレージに格納
   mounted() {
     if (localStorage.filepath) {
       this.filepath = localStorage.filepath
@@ -118,6 +121,7 @@ export default {
     isDone() {
       this.$emit('done-button', false)
     },
+    // 画像をアップロードする機能
     onChange(e) {
       const file = e.target.files[0]
       const uploadedFiles = this.$refs.file.files || this.$refs.file.dataTransfer.files
@@ -142,6 +146,7 @@ export default {
         .then(() => this.$emit('uploaded-button', this.filepath))
         .catch(error => (this.upError = error.response.data.error))
     },
+    // 画像をアップロードしリンクを発行する機能
     onChange2(e) {
       const file = e.target.files[0]
       const uploadedFiles = this.$refs.file2.files || this.$refs.file2.dataTransfer.files
@@ -166,6 +171,7 @@ export default {
         .then(() => (this.pathActive = true))
         .catch(error => (this.upError = error.response.data.error))
     },
+    //　画像を削除する機能
     async isRemove() {
       try {
         await this.$store.dispatch('removeFile', {

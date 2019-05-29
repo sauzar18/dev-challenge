@@ -46,6 +46,7 @@ import IconButton from '~/components/parts/IconButton.vue'
 import IconThumbnail from '~/components/parts/IconThumbnail.vue'
 import MenuContent from '~/components/roofs/Menu.vue'
 export default {
+  // コンポーネントを登録
   components: {
     Logo,
     Search,
@@ -60,6 +61,7 @@ export default {
     }
   },
   methods: {
+    // menuを開く際の処理
     MenuActive() {
       this.isActive = true
     }

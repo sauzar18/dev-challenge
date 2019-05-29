@@ -260,18 +260,23 @@
   </li>
 </template>
 <script>
+// 日時を任意の形に変換
 import moment from 'moment'
+// マークダウンをHTMLに変換
 import marked from 'marked'
 import Comment from '~/components/parts/Comment.vue'
 export default {
+  // コンポーネントを登録
   components: {
     Comment
   },
+  // filtersで変換する処理をテンプレート化する
   filters: {
     moment(date) {
       return moment(date).format('MMM DD')
     }
   },
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     item: {
       type: Object,
@@ -288,9 +293,11 @@ export default {
     }
   },
   methods: {
+    // markdownに変換をする処理
     markDown(e) {
       return marked(e)
     },
+    // クリックしたらクラスを付与
     isToggle(e) {
       e.currentTarget.parentNode.classList.toggle('close')
     },
@@ -300,6 +307,7 @@ export default {
     isReply2(e) {
       e.currentTarget.parentNode.parentNode.parentNode.parentNode.parentNode.classList.toggle('reply')
     },
+    // コメントにログインユーザーがいいねをしている判定
     datePosts(id) {
       const date = this.likes
       let userid
@@ -315,6 +323,7 @@ export default {
         return false
       }
     },
+    // コメントに返信をした際の子を取得
     childComment(id) {
       let list = this.lists
       list = list.filter(function (row) {
@@ -325,6 +334,7 @@ export default {
       })
       return list
     },
+    // いいね数を取得
     count(id) {
       let list = this.likes
       list = list.filter(function (row) {
@@ -335,6 +345,7 @@ export default {
       })
       return Number(list.length)
     },
+    // コメントにいいねをする機能
     async isCool(e) {
       await this.$axios.$post('/api/like', {
         comment: e,
@@ -348,6 +359,7 @@ export default {
           this.upError = err
         })
     },
+    // コメントのいいねを取り消す機能
     async isUnCool(e) {
       await this.$axios.$post('/api/likeDelete', {
         comment: e,

@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+// 記事投稿ページ
 import AppHeader from '~/components/roofs/Header.vue'
 import Editor from '~/components/templates/Editor.vue'
 export default {

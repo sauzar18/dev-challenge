@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+// トップページ
 import AppHeader from '~/components/roofs/Header.vue'
 import CategoryNav from '~/components/templates/CategoryNav.vue'
 import PeriodMenu from '~/components/templates/PeriodMenu.vue'
@@ -54,6 +55,7 @@ export default {
   },
   data() {
     return {
+      // カテゴリーはJSONで今回は記載しているが、データベースと連携させたほうがよい
       categories: [
         { id: 0, name: 'javascript' },
         { id: 1, name: 'webdev' },
@@ -96,6 +98,7 @@ export default {
       ]
     }
   },
+  // Rest Apiの取得 storeに入れないのでasyncDataで取得
   async asyncData({ app, store, params, redirect }) {
     const [data, data2, data3] = await Promise.all([
       app.$axios.$get('/api/get_post'),
@@ -103,8 +106,6 @@ export default {
       app.$axios.$get('/api/commentData')
     ])
     return { posts: data, cools: data2, comments: data3 }
-  },
-  async fetch({ app, store, params, redirect }) {
   }
 }
 </script>

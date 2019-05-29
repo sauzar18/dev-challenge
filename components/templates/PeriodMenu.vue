@@ -16,9 +16,11 @@
 <script>
 import PeriodLink from '~/components/parts/PeriodLink.vue'
 export default {
+  // コンポーネントを登録
   components: {
     PeriodLink
   },
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     menus: {
       type: Array,

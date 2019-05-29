@@ -1,5 +1,5 @@
 import mysql from 'mysql'
-
+// mysqlに接続
 const dbConfig = {
   /*
   host: 'localhost',

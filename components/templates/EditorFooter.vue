@@ -1,4 +1,5 @@
 <template>
+  <!-- 記事投稿に必要な処理を行う -->
   <div class="st-flex">
     <button
       type="button"
@@ -43,6 +44,7 @@
 </template>
 <script>
 export default {
+  // propsで親要素からデータを取得その際に型を定義
   props: {
     title: {
       type: String,
@@ -78,6 +80,7 @@ export default {
     }
   },
   methods: {
+    // localStrorageに格納した内容をクリアする
     isClear() {
       const clear = confirm('Are you sure you want to revert to the previous save?')
       if (clear) {
@@ -88,6 +91,7 @@ export default {
     isPreview() {
       this.$emit('active-preview', true)
     },
+    // 記事を投稿する機能
     async isPost(e) {
       try {
         await this.$store.dispatch('post', {

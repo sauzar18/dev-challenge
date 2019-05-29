@@ -21,6 +21,7 @@
 <script>
 export default {
   methods: {
+    // emitで親要素のクリックイベントを取得
     childAction() {
       this.$emit('active-button')
     }

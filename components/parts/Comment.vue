@@ -1,5 +1,6 @@
 <template>
   <div class="st-comment">
+    <!-- auth module からログインしたデータを所得 -->
     <input
       v-if="$auth.$state.user"
       :value="$auth.$state.user.id"
@@ -119,6 +120,7 @@ export default {
     }
   },
   computed: {
+    // 親要素のインプット内容を取得して新しいものに変換
     internalValue: {
       get() {
         return this.valued
@@ -132,6 +134,7 @@ export default {
     }
   },
   methods: {
+    // 親要素のイベント時に値をわたしている
     isCancel(e) {
       this.$emit('cancel-button', e)
     }

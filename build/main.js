@@ -172,7 +172,10 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [{
+    src: '~plugins/infinite-scroll.js',
+    ssr: false
+  }],
 
   /*
   ** Nuxt.js modules
@@ -257,7 +260,7 @@ module.exports = {
 /*! exports provided: name, version, description, author, private, scripts, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.2","@nuxtjs/pwa":"^3.0.0-beta.16","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.1","express-jwt":"^5.3.1","express-session":"^1.16.1","jsonwebtoken":"^8.5.1","marked":"^0.6.2","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.3","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.1","vue-jest":"^3.0.4"}};
+module.exports = {"name":"dev","version":"1.0.0","description":"task","author":"Tsumuraya","private":true,"scripts":{"dev":"backpack dev","build":"nuxt build && backpack build","start":"cross-env NODE_ENV=production node build/main.js","heroku-postbuild":"npm run build","generate":"nuxt generate","lint":"eslint --ext .js,.vue --ignore-path .gitignore .","precommit":"npm run lint","test":"jest"},"dependencies":{"@nuxtjs/auth":"^4.5.3","@nuxtjs/axios":"^5.5.2","@nuxtjs/pwa":"^3.0.0-beta.16","backpack-core":"^0.8.3","body-parser":"^1.19.0","cookie-parser":"^1.4.4","cross-env":"^5.2.0","csurf":"^1.10.0","express":"^4.17.1","express-jwt":"^5.3.1","express-session":"^1.16.1","jsonwebtoken":"^8.5.1","marked":"^0.6.2","moment":"^2.24.0","multer":"^1.4.1","mysql":"^2.17.1","node-sass":"^4.12.0","nuxt":"^2.7.1","sass-loader":"^7.1.0","sharp":"^0.22.1","vue-infinite-scroll":"^2.0.2","xss":"^1.0.6"},"devDependencies":{"@nuxtjs/eslint-config":"^0.0.1","@vue/test-utils":"^1.0.0-beta.29","babel-core":"7.0.0-bridge.0","babel-eslint":"^10.0.1","babel-jest":"^24.8.0","eslint":"^5.16.0","eslint-config-standard":">=12.0.0","eslint-loader":"^2.1.2","eslint-plugin-import":">=2.17.3","eslint-plugin-jest":">=22.6.4","eslint-plugin-node":">=9.1.0","eslint-plugin-nuxt":">=0.4.3","eslint-plugin-promise":">=4.1.1","eslint-plugin-standard":">=4.0.0","eslint-plugin-vue":"^5.2.2","jest":"^24.8.0","nodemon":"^1.19.1","vue-jest":"^3.0.4"}};
 
 /***/ }),
 
@@ -740,16 +743,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mysql__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mysql__WEBPACK_IMPORTED_MODULE_0__);
 
 const dbConfig = {
-  /*
   host: 'localhost',
   user: 'root',
   database: 'dev_db',
   password: '',
-  */
+
+  /*
   host: 'us-cdbr-iron-east-02.cleardb.net',
   user: 'b1038310007f5e',
   database: 'heroku_1e39c00e23ca36c',
   password: '4cf9784b',
+  */
   multipleStatements: true
 };
 const connection = mysql__WEBPACK_IMPORTED_MODULE_0___default.a.createConnection(dbConfig);

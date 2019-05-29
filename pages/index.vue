@@ -4,7 +4,9 @@
     <div class="st-main">
       <div class="st-left">
         <keep-alive>
-          <my-link v-if="$auth.$state.user" />
+          <my-link
+            v-if="$auth.$state.user"
+          />
         </keep-alive>
         <category-nav :categories="categories" />
       </div>
@@ -15,6 +17,7 @@
         <list
           v-if="posts.toString()"
           :posts="posts"
+          :cools="cools"
         />
         <p
           v-else
@@ -93,8 +96,13 @@ export default {
     }
   },
   async asyncData({ app, store, params, redirect }) {
-    const data = await app.$axios.$get('/api/get_post')
-    return { posts: data }
+    const [data, data2] = await Promise.all([
+      app.$axios.$get('/api/get_post'),
+      app.$axios.$get(`/api/coolData`)
+    ])
+    return { posts: data, cools: data2 }
+  },
+  async fetch({ app, store, params, redirect }) {
   }
 }
 </script>

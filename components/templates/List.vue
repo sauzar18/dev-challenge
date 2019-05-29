@@ -1,5 +1,9 @@
 <template>
-  <ul>
+  <ul
+    v-infinite-scroll="loadMore"
+    infinite-scroll-disabled="busy"
+    infinite-scroll-distance="10"
+  >
     <li
       v-for="(post, i) in posts"
       :key="post.id"
@@ -54,7 +58,9 @@
                 alt="いいね数"
               >
             </i>
-            {{ isCount(post.user_id) }}
+            <span class="st-count">
+              {{ isCount(post.id) }}
+            </span>
           </n-link>
           <n-link :to="`/${post.user_tag}/${post.title}#comment`">
             <i>
@@ -97,12 +103,43 @@ export default {
     posts: {
       type: Array,
       required: true
+    },
+    cools: {
+      type: Array,
+      required: true
+    }
+  },
+  data() {
+    return {
+      lists: this.posts,
+      busy: false,
+      count: 10,
+      cool: this.cools
     }
   },
   methods: {
-    isCount(e) {
+    isCount(id) {
+      let list = this.cool
+      list = list.filter(function (row) {
+        if (row.article_id !== id) {
+          return false
+        }
+        return row
+      })
+      return Number(list.length)
     },
     isComment(e) {
+    },
+    loadMore() {
+      this.busy = true
+      if (this.lists.length > 10) {
+        setTimeout(() => {
+          for (let i = 0, j = 10; i < j; i++) {
+            this.count++
+          }
+          this.busy = false
+        }, 1000)
+      }
     }
   }
 }
@@ -192,6 +229,11 @@ footer {
 .st-button {
   width: 58px;
   border-radius: 3px;
+  font-size: 16px;
+}
+.st-count {
+  color: #666666;
+  margin-left: 8px;
   font-size: 16px;
 }
 </style>

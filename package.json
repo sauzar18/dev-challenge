@@ -35,6 +35,7 @@
     "nuxt": "^2.7.1",
     "sass-loader": "^7.1.0",
     "sharp": "^0.22.1",
+    "vue-infinite-scroll": "^2.0.2",
     "xss": "^1.0.6"
   },
   "devDependencies": {

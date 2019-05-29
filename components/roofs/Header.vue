@@ -21,7 +21,19 @@
           alt="Notifications"
           class="st-space__left"
         />
-        <icon-thumbnail class="st-space__left" />
+        <icon-thumbnail
+          class="st-space__left"
+          @active-button="MenuActive"
+        />
+        <menu-content
+          v-if="$auth.$state.user"
+          :class="{ active: isActive }"
+          class="st-menu"
+        />
+        <div
+          class="st-hidden"
+          @click="isActive = false"
+        />
       </div>
     </div>
   </header>
@@ -32,13 +44,25 @@ import Search from '~/components/parts/Search.vue'
 import ButtonPost from '~/components/parts/ButtonPost.vue'
 import IconButton from '~/components/parts/IconButton.vue'
 import IconThumbnail from '~/components/parts/IconThumbnail.vue'
+import MenuContent from '~/components/roofs/Menu.vue'
 export default {
   components: {
     Logo,
     Search,
     ButtonPost,
     IconButton,
-    IconThumbnail
+    IconThumbnail,
+    MenuContent
+  },
+  data() {
+    return {
+      isActive: false
+    }
+  },
+  methods: {
+    MenuActive() {
+      this.isActive = true
+    }
   }
 }
 </script>
@@ -64,9 +88,30 @@ header {
 .st-button__group {
   display: flex;
   align-items: center;
+  position: relative;
 }
 .st-space__left {
   margin-right: 20px;
+  &:hover,
+  &:focus {
+    + .st-menu {
+      display: block;
+    }
+  }
+}
+.st-menu.active {
+  display: block;
+  z-index: 1;
+  + .st-hidden {
+    position: fixed;
+    display: block;
+    top: 44px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 44px);
+    z-index: -1;
+    background-color: rgba(0,0,0,0.6);
+  }
 }
 .st-space__right {
   margin-left: 2%;

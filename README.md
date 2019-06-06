@@ -5,7 +5,7 @@
 1. スキルを十分に確認できるプロジェクトあるいはソースコード  
 [GitHub](https://github.com/sauzar18)
 
-2. メインコーダーとなって開発した、実際に稼働中のプロダクト（可能であれば）  
+2. メインコーダーとなって開発した、実際に稼働中のプロダクト
 [Keenlyの書き換え](https://github.com/sauzar18/keenly)  
 [予約システム](https://github.com/sauzar18/furbo)  
 [歯科求人サイト](https://github.com/sauzar18/medee)
